@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum Virtron</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Custom Scrollbar Styles */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+    </style>
+</head>
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const sidebarContent = document.getElementById('sidebar-content');
+        const sidebarIcons = document.getElementById('sidebar-icons');
+
+        sidebar.classList.toggle('w-16');
+        sidebar.classList.toggle('md:w-64');
+        sidebarContent.classList.toggle('hidden');
+        sidebarIcons.classList.toggle('hidden');
+    }
+
+    function autoMinimizeSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const sidebarContent = document.getElementById('sidebar-content');
+        const sidebarIcons = document.getElementById('sidebar-icons');
+
+        if (window.innerWidth < 768) {
+            sidebar.classList.add('hidden');
+        } else {
+            sidebar.classList.remove('hidden');
+            
+            if (window.innerWidth < 1287) {
+                sidebar.classList.add('w-16');
+                sidebar.classList.remove('md:w-64');
+                sidebarContent.classList.add('hidden');
+                sidebarIcons.classList.remove('hidden');
+            } else {
+                sidebar.classList.remove('w-16');
+                sidebar.classList.add('md:w-64');
+                sidebarContent.classList.remove('hidden');
+                sidebarIcons.classList.add('hidden');
+            }
+        }
+    }
+
+    window.addEventListener('resize', autoMinimizeSidebar);
+    window.addEventListener('load', autoMinimizeSidebar);
+</script>
+<body class="bg-gray-900 h-screen flex flex-col">
+    <header class="bg-gray-800 shadow-sm sticky top-0 z-10">
+        <div class="container px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4 w-[200px]">
+                <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300" onclick="toggleSidebar()">
+                    <i class="fas fa-bars text-gray-300"></i>
+                </button>
+                <img src="logo.png" alt="Virtron Logo" class="h-7">
+            </div>
+    
+            <div class="flex items-center flex-grow max-w-xl justify-center">
+                <div class="hidden sm:flex relative w-full">
+                    <input type="text" placeholder="Search topics" class="w-full px-4 py-2 rounded-full border border-gray-700 bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    <button class="absolute right-3 top-2">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </button>
+                </div>
+
+                <button class="sm:hidden w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+    
+            <div class="flex items-center space-x-4 w-[200px] justify-end">
+                <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    <i class="fas fa-plus text-gray-300"></i>
+                </button>
+                <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    <i class="fas fa-bell text-gray-300"></i>
+                </button>
+                <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+
+    <div class="flex flex-1 overflow-hidden">
+        <aside id="sidebar" class="hidden md:block w-full md:w-64 bg-gray-800 shadow-md overflow-y-auto transition-all duration-300">
+            <div class="p-4">
+                <div id="sidebar-content">
+                    <nav class="space-y-2">
+                        <a href="/" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
+                            <i class="fas fa-home mr-3"></i>
+                            <span>Home</span>
+                        </a>
+                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <i class="fas fa-fire mr-3"></i>
+                            <span>Getting Started</span>
+                        </a>
+                        <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <i class="fas fa-star mr-3"></i>
+                            <span>Code of Conduct</span>
+                        </a>
+                        <a href="/trending" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <i class="fas fa-fire mr-3"></i>
+                            <span>Fight Hype</span>
+                        </a>
+                        <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <i class="fas fa-star mr-3"></i>
+                            <span>Promoters</span>
+                        </a>
+                        <hr class="my-3 border-gray-700">
+                        <a href="/saved" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <i class="fas fa-bookmark mr-3"></i>
+                            <span>Saved</span>
+                        </a>
+                        <a href="/history" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <i class="fas fa-history mr-3"></i>
+                            <span>PPV</span>
+                        </a>
+                    </nav>
+
+                    <hr class="my-3 border-gray-700">
+
+                    <h3 class="font-medium px-3 mb-2 text-gray-300">Popular Categories</h3>
+                    <nav class="space-y-1">
+                        <a href="/category/technology" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <i class="fas fa-laptop mr-3"></i>
+                            <span>Technology</span>
+                        </a>
+                        <a href="/category/gaming" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <i class="fas fa-gamepad mr-3"></i>
+                            <span>Gaming</span>
+                        </a>
+                        <a href="/category/art-design" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                            <i class="fas fa-paint-brush mr-3"></i>
+                            <span>Forum</span>
+                        </a>
+                        <a href="/category/sports" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                          <i class="fas fa-futbol mr-3"></i>
+                          <span>EAC</span>
+                      </a>
+                      <a href="/category/music" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                          <i class="fas fa-music mr-3"></i>
+                          <span>FytRec</span>
+                      </a>
+                      </nav>
+                      <div style="height: 500px"></div>
+                      </div>
+                      
+                      <div id="sidebar-icons" class="hidden">
+                      <nav class="space-y-2">
+                          <a href="/" class="flex items-center justify-center p-3 rounded-lg bg-gray-700 text-gray-300">
+                              <i class="fas fa-home"></i>
+                          </a>
+                          <a href="/trending" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                              <i class="fas fa-fire"></i>
+                          </a>
+                          <a href="/subscriptions" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                              <i class="fas fa-star"></i>
+                          </a>
+                          <hr class="my-3 border-gray-700">
+                          <a href="/saved" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                              <i class="fas fa-bookmark"></i>
+                          </a>
+                          <a href="/history" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                              <i class="fas fa-history"></i>
+                          </a>
+                      </nav>
+                      </div>
+                      </div>
+                      </aside>
+                      
+                      <main class="flex-1 overflow-y-auto p-8">
+                          <div class="max-w-3xl mx-auto">
+                              <div class="mb-8">
+                                  <h1 class="text-3xl font-bold mb-2">Developing community features for Fight Night Champion fans</h1>
+                                  <div class="flex items-center text-sm text-gray-400 mb-4">
+                                      <a href="/user/communitybuilder" class="flex items-center hover:text-gray-300">
+                                          <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs mr-2">
+                                              C
+                                          </div>
+                                          communitybuilder
+                                      </a>
+                                      <span class="mx-2">•</span>
+                                      <span>350 views</span>
+                                      <span class="mx-2">•</span>
+                                      <span>2 days ago</span>
+                                  </div>
+                              </div>
+                      
+                              <div class="mb-8">
+                                  <img src="dev.jpg" alt="Discussion Image" class="w-full rounded-lg mb-4">
+                                  <p class="text-gray-400 leading-relaxed mb-6">
+                                      How can we design features that will engage Fight Night Champion players and help build a stronger community on the platform? We need to consider things like in-game communication, social features, and ways to organize events and tournaments. 
+                                      <br><br>
+                                      Perhaps we could implement a system for creating and sharing custom fight cards, or a way to easily find and join online matches with friends. We could also look into integrating streaming tools so players can easily share their gameplay with the community. Let's brainstorm some ideas!
+                                      <br><br>
+                                      What are your thoughts? What features would you like to see added to the game?
+                                  </p>
+                      
+                                  <div class="flex items-center text-sm text-gray-400">
+                                      <button class="flex items-center mr-4 hover:text-gray-300">
+                                          <i class="fas fa-thumbs-up mr-1"></i>
+                                          <span>18</span>
+                                      </button>
+                                      <button class="flex items-center mr-4 hover:text-gray-300">
+                                          <i class="fas fa-thumbs-down mr-1"></i>
+                                          <span>2</span>
+                                      </button>
+                                      <button class="flex items-center hover:text-gray-300">
+                                          <i class="fas fa-bookmark mr-1"></i>
+                                          <span>Save</span>
+                                      </button>
+                                  </div>
+                              </div>
+                      
+                              <div class="mb-8">
+                                  <h2 class="text-xl font-semibold mb-4">Comments</h2>
+                      
+                                  <div class="mb-4 p-4 bg-gray-800 rounded-lg">
+                                      <div class="flex items-center mb-2">
+                                          <div class="h-6 w-6 rounded-full bg-green-500 flex items-center justify-center text-white text-xs mr-2">
+                                              J
+                                          </div>
+                                          <span class="font-semibold">JohnDoe</span>
+                                          <span class="text-xs text-gray-500 ml-2">2 days ago</span>
+                                      </div>
+                                      <p class="text-gray-400">I think a tournament feature would be awesome! It would give the community something to rally around.</p>
+                                  </div>
+                      
+                                  <div class="mb-4 p-4 bg-gray-800 rounded-lg">
+                                      <div class="flex items-center mb-2">
+                                          <div class="h-6 w-6 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs mr-2">
+                                              S
+                                          </div>
+                                          <span class="font-semibold">SarahSmith</span>
+                                          <span class="text-xs text-gray-500 ml-2">1 day ago</span>
+                                      </div>
+                                      <p class="text-gray-400">I agree! And maybe a way to share replays of our best fights?</p>
+                                  </div>
+                      
+                                  <div class="bg-gray-800 rounded-lg p-4">
+                                      <textarea class="w-full bg-gray-700 rounded-lg p-2 text-gray-300" placeholder="Add a comment..."></textarea>
+                                      <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg mt-2">Post Comment</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </main>
+                      </div>
+                      
+                      </body>
+                      </html>

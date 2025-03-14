@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forum Virtron</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    /* Custom Scrollbar Styles */
+    ::-webkit-scrollbar {
+      width: 10px; /* Width of the scrollbar */
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1f2937; /* Track color (gray-800) */
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #374151; /* Thumb color (gray-700) */
+      border-radius: 5px; /* Rounded corners */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4b5563; /* Thumb color on hover (gray-600) */
+    }
+  </style>
+</head>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const sidebarContent = document.getElementById('sidebar-content');
+    const sidebarIcons = document.getElementById('sidebar-icons');
+
+    sidebar.classList.toggle('w-16');
+    sidebar.classList.toggle('md:w-64');
+    sidebarContent.classList.toggle('hidden');
+    sidebarIcons.classList.toggle('hidden');
+  }
+
+  function autoMinimizeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const sidebarContent = document.getElementById('sidebar-content');
+    const sidebarIcons = document.getElementById('sidebar-icons');
+
+    if (window.innerWidth < 1287) { // Adjust width threshold as needed
+      sidebar.classList.add('w-16');
+      sidebar.classList.remove('md:w-64');
+      sidebarContent.classList.add('hidden');
+      sidebarIcons.classList.remove('hidden');
+    } else {
+      sidebar.classList.remove('w-16');
+      sidebar.classList.add('md:w-64');
+      sidebarContent.classList.remove('hidden');
+      sidebarIcons.classList.add('hidden');
+    }
+  }
+
+  window.addEventListener('resize', autoMinimizeSidebar);
+  window.addEventListener('load', autoMinimizeSidebar);
+</script>
+<body class="bg-gray-100 h-screen flex flex-col">
+
+  <header class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-300" onclick="toggleSidebar()">
+          <i class="fas fa-bars text-gray-700"></i>
+        </button>
+        <span class="text-red-600 text-xl font-bold">Forum<span class="text-black">Virtron</span></span>
+      </div>
+
+      <div class="hidden md:flex items-center flex-1 max-w-xl mx-8">
+        <div class="relative w-full">
+          <input type="text" placeholder="Search topics" class="w-full px-4 py-2 rounded-full border border-gray-700 bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+           <button class="absolute right-3 top-2">
+            <i class="fas fa-search text-gray-400"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <i class="fas fa-plus text-gray-700"></i>
+        </button>
+        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <i class="fas fa-bell text-gray-700"></i>
+        </button>
+        <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+          <i class="fas fa-user"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+
+    <aside id="sidebar" class="w-full md:w-64 bg-white shadow-md overflow-y-auto transition-all duration-300">
+      <div class="p-4">
+        <div id="sidebar-content">
+          <nav class="space-y-2">
+            <a href="/" class="flex items-center p-3 rounded-lg bg-gray-100 text-gray-900">
+              <i class="fas fa-home mr-3"></i>
+              <span>Home</span>
+            </a>
+            <a href="/trending" class="flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-fire mr-3"></i>
+              <span>Trending</span>
+            </a>
+            <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-star mr-3"></i>
+              <span>Subscriptions</span>
+            </a>
+            <hr class="my-3">
+            <a href="/saved" class="flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-bookmark mr-3"></i>
+              <span>Saved</span>
+            </a>
+            <a href="/history" class="flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-history mr-3"></i>
+              <span>History</span>
+            </a>
+          </nav>
+
+          <hr class="my-3">
+
+          <h3 class="font-medium px-3 mb-2">Popular Categories</h3>
+          <nav class="space-y-1">
+            <a href="/category/technology" class="flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-laptop mr-3"></i>
+              <span>Technology</span>
+            </a>
+            <a href="/category/gaming" class="flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-gamepad mr-3"></i>
+              <span>Gaming</span>
+            </a>
+            <a href="/category/art-design" class="flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-paint-brush mr-3"></i>
+              <span>Art & Design</span>
+            </a>
+            <a href="/category/sports" class="flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-futbol mr-3"></i>
+              <span>Sports</span>
+            </a>
+            <a href="/category/music" class="flex items-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-music mr-3"></i>
+              <span>Music</span>
+            </a>
+          </nav>
+          <div style="height: 500px"></div>
+        </div>
+
+        <div id="sidebar-icons" class="hidden">
+          <nav class="space-y-2">
+            <a href="/" class="flex items-center justify-center p-3 rounded-lg bg-gray-100 text-gray-900">
+              <i class="fas fa-home"></i>
+            </a>
+            <a href="/trending" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-fire"></i>
+            </a>
+            <a href="/subscriptions" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-star"></i>
+            </a>
+            <hr class="my-3">
+            <a href="/saved" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-bookmark"></i>
+            </a>
+            <a href="/history" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-100 text-gray-700">
+              <i class="fas fa-history"></i>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto bg-gray-900">
+      <div class="p-4">
+
+        <!-- Section 1 -->
+        <div class="mb-6">
+          <div class="flex items-center mb-4">
+            <h1 class="text-2xl font-bold text-gray-300">Popular Discussions</h1>
+            <div class="ml-auto">
+              <select class="border border-gray-700 rounded-lg px-3 py-2 bg-gray-800 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option>Trending</option>
+                <option>Recent</option>
+                <option>Most Discussed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Topic 1 -->            
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+              <div class="relative aspect-video bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/5/200/300" alt="What programming language should I learn in 2025?" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
+                  42 comments
+                </div>
+              </div>
+
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1 hover:text-blue-600">
+                  <a href="/topic/1">What programming language should I learn in 2025?</a>
+                </h3>
+                <div class="flex items-center text-sm text-gray-500 mb-2">
+                  <a href="/user/techlearner" class="flex items-center hover:text-gray-700">
+                    <div class="h-6 w-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs mr-2">
+                      T
+                    </div>
+                    techlearner
+                  </a>
+                  <span class="mx-2">•</span>
+                  <span>2.5k views</span>
+                  <span class="mx-2">•</span>
+                  <span>3 days ago</span>
+                </div>
+
+                <p class="text-gray-600 text-sm line-clamp-2 mb-3">
+                  I'm new to coding and want to start with something that has good job prospects...
+                </p>
+
+                <div class="flex items-center text-sm text-gray-600">
+                  <button class="flex items-center mr-4 hover:text-gray-900">
+                    <i class="fas fa-thumbs-up mr-1"></i>
+                    <span>187</span>
+                  </button>
+                  <button class="flex items-center mr-4 hover:text-gray-900">
+                    <i class="fas fa-thumbs-down mr-1"></i>
+                    <span>12</span>
+                  </button>
+                  <button class="flex items-center hover:text-gray-900">
+                    <i class="fas fa-bookmark mr-1"></i>
+                    <span>Save</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Topic 2 -->
+            <div class="bg-gray-800 rounded-lg shadow-sm overflow-hidden">
+                <div class="relative aspect-video bg-gray-700 overflow-hidden">
+                <img src="https://picsum.photos/id/34/200/300" alt="Top 10 games worth playing in 2025" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
+                  93 comments
+                </div>
+              </div>
+              
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1 text-gray-300 hover:text-blue-600">
+                  <a href="/topic/2">Top 10 games worth playing in 2025</a>
+                </h3>
+                <div class="flex items-center text-sm text-gray-500 mb-2">
+                  <a href="/user/gamerguru" class="flex items-center hover:text-gray-700">
+                    <div class="h-6 w-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs mr-2">
+                      G
+                    </div>
+                    gamerguru
+                  </a>
+                  <span class="mx-2">•</span>
+                  <span>8.7k views</span>
+                  <span class="mx-2">•</span>
+                  <span>1 week ago</span>
+                </div>
+                
+                <p class="text-gray-400 text-sm line-clamp-2 mb-3">
+                  After trying dozens of games this year, I've compiled my list of the best...
+                </p>
+                
+                <div class="flex items-center text-sm text-gray-400">
+                  <button class="flex items-center mr-4 hover:text-gray-300">
+                    <i class="fas fa-thumbs-up mr-1"></i>
+                    <span>412</span>
+                  </button>
+                  <button class="flex items-center mr-4 hover:text-gray-300">
+                    <i class="fas fa-thumbs-down mr-1"></i>
+                    <span>28</span>
+                  </button>
+                  <button class="flex items-center hover:text-gray-300">
+                    <i class="fas fa-bookmark mr-1"></i>
+                    <span>Save</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Topic 3 -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+              <div class="relative aspect-video bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/22/200/300" alt="How to build an awesome forum with EJS and Tailwind" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
+                  17 comments
+                </div>
+              </div>
+              
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1 hover:text-blue-600">
+                  <a href="/topic/3">How to build an awesome forum with EJS and Tailwind</a>
+                </h3>
+                <div class="flex items-center text-sm text-gray-500 mb-2">
+                  <a href="/user/devmaster" class="flex items-center hover:text-gray-700">
+                    <div class="h-6 w-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs mr-2">
+                      D
+                    </div>
+                    devmaster
+                  </a>
+                  <span class="mx-2">•</span>
+                  <span>954 views</span>
+                  <span class="mx-2">•</span>
+                  <span>5 hours ago</span>
+                </div>
+                
+                <p class="text-gray-600 text-sm line-clamp-2 mb-3">
+                  In this tutorial, I'll walk you through creating a YouTube-inspired forum layout...
+                </p>
+                
+                <div class="flex items-center text-sm text-gray-600">
+                  <button class="flex items-center mr-4 hover:text-gray-900">
+                    <i class="fas fa-thumbs-up mr-1"></i>
+                    <span>86</span>
+                  </button>
+                  <button class="flex items-center mr-4 hover:text-gray-900">
+                    <i class="fas fa-thumbs-down mr-1"></i>
+                    <span>2</span>
+                  </button>
+                  <button class="flex items-center hover:text-gray-900">
+                    <i class="fas fa-bookmark mr-1"></i>
+                    <span>Save</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Topic 4 -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+              <div class="relative aspect-video bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/12/200/300" alt="The future of artificial intelligence: my predictions" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
+                  31 comments
+                </div>
+              </div>
+              
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1 hover:text-blue-600">
+                  <a href="/topic/4">The future of artificial intelligence: my predictions</a>
+                </h3>
+                <div class="flex items-center text-sm text-gray-500 mb-2">
+                  <a href="/user/aienthusiast" class="flex items-center hover:text-gray-700">
+                    <div class="h-6 w-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs mr-2">
+                      A
+                    </div>
+                    aienthusiast
+                  </a>
+                  <span class="mx-2">•</span>
+                  <span>1.2k views</span>
+                  <span class="mx-2">•</span>
+                  <span>2 days ago</span>
+                </div>
+                
+                <p class="text-gray-600 text-sm line-clamp-2 mb-3">
+                  Based on recent developments, here's where I think AI is headed in the next decade...
+                </p>
+                
+                <div class="flex items-center text-sm text-gray-600">
+                  <button class="flex items-center mr-4 hover:text-gray-900">
+                    <i class="fas fa-thumbs-up mr-1"></i>
+                    <span>103</span>
+                  </button>
+                  <button class="flex items-center mr-4 hover:text-gray-900">
+                    <i class="fas fa-thumbs-down mr-1"></i>
+                    <span>8</span>
+                  </button>
+                  <button class="flex items-center hover:text-gray-900">
+                    <i class="fas fa-bookmark mr-1"></i>
+                    <span>Save</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Topic 5 -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+              <div class="relative aspect-video bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/42/200/300" alt="My journey as a self-taught web developer" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
+                  64 comments
+                </div>
+              </div>
+              
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1 hover:text-blue-600">
+                  <a href="/topic/5">My journey as a self-taught web developer</a>
+                </h3>
+                <div class="flex items-center text-sm text-gray-500 mb-2">
+                  <a href="/user/codejourney" class="flex items-center hover:text-gray-700">
+                    <div class="h-6 w-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs mr-2">
+                      C
+                    </div>
+                    codejourney
+                  </a>
+                  <span class="mx-2">•</span>
+                  <span>3.8k views</span>
+                  <span class="mx-2">•</span>
+                  <span>4 days ago</span>
+                </div>
+                
+                <p class="text-gray-600 text-sm line-clamp-2 mb-3">
+                  From complete beginner to professional in 18 months - here's how I did it...
+                </p>
+                
+                <div class="flex items-center text-sm text-gray-600">
+                  <button class="flex items-center mr-4 hover:text-gray-900">
+                    <i class="fas fa-thumbs-up mr-1"></i>
+                    <span>221</span>
+                  </button>
+                  <button class="flex items-center mr-4 hover:text-gray-900">
+                    <i class="fas fa-thumbs-down mr-1"></i>
+                    <span>5</span>
+                  </button>
+                  <button class="flex items-center hover:text-gray-900">
+                    <i class="fas fa-bookmark mr-1"></i>
+                    <span>Save</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Topic 6 -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+              <div class="relative aspect-video bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/30/200/300" alt="Building a smart home on a budget: 2025 edition" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
+                  47 comments
+                </div>
+              </div>
+              
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1 hover:text-blue-600">
+                  <a href="/topic/6">Building a smart home on a budget: 2025 edition</a>
+                </h3>
+                <div class="flex items-center text-sm text-gray-500 mb-2">
+                  <a href="/user/techhomemaker" class="flex items-center hover:text-gray-700">
+                    <div class="h-6 w-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs mr-2">
+                      T
+                    </div>
+                    techhomemaker
+                  </a>
+                  <span class="mx-2">•</span>
+                  <span>5.1k views</span>
+                  <span class="mx-2">•</span>
+                  <span>6 days ago</span>
+                </div>
+                
+                <p class="text-gray-600 text-sm line-clamp-2 mb-3">
+                  You don't need to spend thousands to automate your home. Here's my setup...
+                </p>
+                
+                <div class="flex items-center text-sm text-gray-600">
+                  <button class="flex items-center mr-4 hover:text-gray-900">
+                    <i class="fas fa-thumbs-up mr-1"></i>
+                    <span>278</span>
+                  </button>
+                  <button class="flex items-center mr-4 hover:text-gray-900">
+                    <i class="fas fa-thumbs-down mr-1"></i>
+                    <span>14</span>
+                  </button>
+                  <button class="flex items-center hover:text-gray-900">
+                    <i class="fas fa-bookmark mr-1"></i>
+                    <span>Save</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Section 2 -->
+        <div class="mb-6">
+          <div class="flex items-center mb-4">
+            <h1 class="text-2xl font-bold">Hot Topics</h1>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col">
+              <div class="relative aspect-[4/5] bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/10/200/300" alt="Hot Topic 1" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+                  42 comments
+                </div>
+              </div>
+              <div class="p-2">
+                <h3 class="font-bold text-sm mb-1 hover:text-blue-600 line-clamp-2">
+                  <a href="/topic/hot1">Latest Tech Trends</a>
+                </h3>
+                <div class="text-xs text-gray-500">
+                  <span>2.5k views</span>
+                  <span class="mx-1">•</span>
+                  <span>3 days ago</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col">
+              <div class="relative aspect-[4/5] bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/11/200/300" alt="Hot Topic 2" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+                  12 comments
+                </div>
+              </div>
+              <div class="p-2">
+                <h3 class="font-bold text-sm mb-1 hover:text-blue-600 line-clamp-2">
+                  <a href="/topic/hot2">Gaming News</a>
+                </h3>
+                <div class="text-xs text-gray-500">
+                  <span>1.8k views</span>
+                  <span class="mx-1">•</span>
+                  <span>1 day ago</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col">
+              <div class="relative aspect-[4/5] bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/12/200/300" alt="Hot Topic 3" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+                  25 comments
+                </div>
+              </div>
+              <div class="p-2">
+                <h3 class="font-bold text-sm mb-1 hover:text-blue-600 line-clamp-2">
+                  <a href="/topic/hot3">Art & Design Showcase</a>
+                </h3>
+                <div class="text-xs text-gray-500">
+                  <span>900 views</span>
+                  <span class="mx-1">•</span>
+                  <span>5 hours ago</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col">
+              <div class="relative aspect-[4/5] bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/13/200/300" alt="Hot Topic 4" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+                  58 comments
+                </div>
+              </div>
+              <div class="p-2">
+                <h3 class="font-bold text-sm mb-1 hover:text-blue-600 line-clamp-2">
+                  <a href="/topic/hot4">Sports Highlights</a>
+                </h3>
+                <div class="text-xs text-gray-500">
+                  <span>2.1k views</span>
+                  <span class="mx-1">•</span>
+                  <span>2 days ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="mb-6">
+          <div class="flex items-center mb-4">
+            <h1 class="text-2xl font-bold">Quick Voting</h1>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        
+            <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+              <div class="relative aspect-[3/4] bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/101/200/300" alt="Quick Vote 1"
+                  class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+              </div>
+              <div class="p-2">
+                <h3 class="font-bold text-sm mb-1 hover:text-blue-600 line-clamp-2">
+                  <a href="/vote/1">Vote Topic 1</a>
+                </h3>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded">Vote</button>
+              </div>
+            </div>
+        
+            <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+              <div class="relative aspect-[3/4] bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/102/200/300" alt="Quick Vote 2"
+                  class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+              </div>
+              <div class="p-2">
+                <h3 class="font-bold text-sm mb-1 hover:text-blue-600 line-clamp-2">
+                  <a href="/vote/2">Vote Topic 2</a>
+                </h3>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded">Vote</button>
+              </div>
+            </div>
+        
+            <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+              <div class="relative aspect-[3/4] bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/103/200/300" alt="Quick Vote 3"
+                  class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+              </div>
+              <div class="p-2">
+                <h3 class="font-bold text-sm mb-1 hover:text-blue-600 line-clamp-2">
+                  <a href="/vote/3">Vote Topic 3</a>
+                </h3>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded">Vote</button>
+              </div>
+            </div>
+        
+            <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+              <div class="relative aspect-[3/4] bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/104/200/300" alt="Quick Vote 4"
+                  class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+              </div>
+              <div class="p-2">
+                <h3 class="font-bold text-sm mb-1 hover:text-blue-600 line-clamp-2">
+                  <a href="/vote/4">Vote Topic 4</a>
+                </h3>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded">Vote</button>
+              </div>
+            </div>
+        
+            <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+              <div class="relative aspect-[3/4] bg-gray-200 overflow-hidden">
+                <img src="https://picsum.photos/id/94/200/300" alt="Quick Vote 5"
+                  class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+              </div>
+              <div class="p-2">
+                <h3 class="font-bold text-sm mb-1 hover:text-blue-600 line-clamp-2">
+                  <a href="/vote/5">Vote Topic 5</a>
+                </h3>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded">Vote</button>
+              </div>
+            </div>    
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col w-full sm:w-80">
+          <div class="relative group">
+            <img src="https://picsum.photos/seed/proposal/400/225" alt="Proposal Thumbnail" 
+                 class="w-full h-44 object-cover">
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300">
+              <button class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-full">
+                ▶ View Proposal
+              </button>
+            </div>
+          </div>
+          
+          <div class="p-3">
+            <h3 class="font-bold text-white text-sm line-clamp-2">
+              <a href="/proposal/1" class="hover:text-red-500">"New Weight Class Restrictions for Online Matches"</a>
+            </h3>
+            <p class="text-xs text-gray-400">Submitted by <span class="text-red-400">@FightFan123</span></p>
+        
+            <div class="flex items-center justify-between mt-2">
+              <div class="flex items-center space-x-3 text-gray-300 text-xs">
+                <span>🔥 1.2K votes</span>
+                <span>👁️ 3.5K views</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <button class="text-gray-400 hover:text-blue-500">
+                  👍 256
+                </button>
+                <button class="text-gray-400 hover:text-red-500">
+                  👎 14
+                </button>
+              </div>
+            </div>
+        
+            <p class="mt-2 text-gray-400 text-xs italic">
+              "This would really balance competitive play!" - <span class="text-gray-300">Top Comment</span>
+            </p>
+          </div>
+        </div>
+        
+      </div>
+    </main>
+  </body>
+  </html>
