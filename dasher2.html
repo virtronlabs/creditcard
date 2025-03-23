@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoxingRival - Gaming Community</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .bg-custom-dark {
+            background-color: #121212;
+        }
+        .bg-custom-card {
+            background-color: #1e1e1e;
+        }
+        .bg-custom-accent {
+            background-color: #8257e5;
+        }
+        .text-custom-accent {
+            color: #8257e5;
+        }
+        .border-custom-accent {
+            border-color: #8257e5;
+        }
+    </style>
+</head>
+<body class="bg-custom-dark text-gray-300">
+    <!-- Top Navigation -->
+    <nav class="bg-black px-4 py-3 flex justify-between items-center shadow-md sticky top-0 z-50">
+        <div class="flex items-center space-x-2">
+            <span class="text-xl font-bold text-white"><i class="fas fa-fist-raised text-custom-accent mr-2"></i>BoxingRival</span>
+        </div>
+        <div class="flex items-center space-x-6">
+            <a href="#" class="text-gray-400 hover:text-white"><i class="far fa-bell"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="far fa-envelope"></i></a>
+            <div class="relative">
+                <img src="/api/placeholder/48/48" alt="User avatar" class="w-8 h-8 rounded-full cursor-pointer">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="flex">
+        <!-- Side Navigation -->
+        <div class="w-64 h-screen bg-black flex-shrink-0 fixed pt-6 px-2 hidden md:block">
+            <ul class="space-y-3">
+                <li><a href="#" class="flex items-center px-4 py-3 bg-custom-accent rounded-lg text-white"><i class="fas fa-home mr-3"></i> Dashboard</a></li>
+                <li><a href="#" class="flex items-center px-4 py-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-users mr-3"></i> Find Players</a></li>
+                <li><a href="#" class="flex items-center px-4 py-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-trophy mr-3"></i> Tournaments</a></li>
+                <li><a href="#" class="flex items-center px-4 py-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-book mr-3"></i> Guides</a></li>
+                <li><a href="#" class="flex items-center px-4 py-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-comments mr-3"></i> Forums</a></li>
+                <li><a href="#" class="flex items-center px-4 py-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-user mr-3"></i> Profile</a></li>
+                <li><a href="#" class="flex items-center px-4 py-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-cog mr-3"></i> Settings</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="md:ml-64 flex-1 p-4">
+            <!-- Complete Profile Alert -->
+            <div class="mb-6 bg-gray-800 border-l-4 border-custom-accent rounded-md p-4 flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-circle text-custom-accent mr-3 text-xl"></i>
+                    <div>
+                        <p class="font-medium">Complete your profile to get the most out of BoxingRival!</p>
+                        <p class="text-sm text-gray-400">Add your Xbox gamertag to start connecting with other FNC players.</p>
+                    </div>
+                </div>
+                <button class="bg-custom-accent hover:bg-purple-700 text-white px-4 py-2 rounded-md">Complete Now</button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Activity Feed -->
+                    <div class="bg-custom-card rounded-lg shadow-lg p-4">
+                        <h2 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-rss text-custom-accent mr-2"></i> Community Activity</h2>
+                        
+                        <!-- Activity Item -->
+                        <div class="border-b border-gray-700 pb-4 mb-4">
+                            <div class="flex items-center mb-2">
+                                <img src="/api/placeholder/40/40" alt="User avatar" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium">KnockoutKing <span class="text-gray-500 text-sm">posted in</span> <span class="text-custom-accent">Strategy Discussion</span></p>
+                                    <p class="text-xs text-gray-500">2 hours ago</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300">Just discovered a new counter technique for aggressive fighters! Check out my video breakdown...</p>
+                            <div class="mt-2 flex space-x-3">
+                                <button class="text-gray-400 hover:text-white text-sm flex items-center"><i class="far fa-thumbs-up mr-1"></i> 24</button>
+                                <button class="text-gray-400 hover:text-white text-sm flex items-center"><i class="far fa-comment mr-1"></i> 8</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Activity Item -->
+                        <div class="border-b border-gray-700 pb-4 mb-4">
+                            <div class="flex items-center mb-2">
+                                <img src="/api/placeholder/40/40" alt="Admin avatar" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium">BoxingRival Admin <span class="text-gray-500 text-sm">posted an announcement</span></p>
+                                    <p class="text-xs text-gray-500">Yesterday</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300">🏆 Weekend Tournament: Registration is now open for our Spring Championship! Over $500 in prizes!</p>
+                            <div class="mt-2 flex space-x-3">
+                                <button class="text-gray-400 hover:text-white text-sm flex items-center"><i class="far fa-thumbs-up mr-1"></i> 56</button>
+                                <button class="text-gray-400 hover:text-white text-sm flex items-center"><i class="far fa-comment mr-1"></i> 12</button>
+                            </div>
+                        </div>
+
+                        <!-- Activity Item -->
+                        <div class="pb-2">
+                            <div class="flex items-center mb-2">
+                                <img src="/api/placeholder/40/40" alt="User avatar" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium">JabMaster <span class="text-gray-500 text-sm">shared a guide</span></p>
+                                    <p class="text-xs text-gray-500">2 days ago</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300">New player guide: Understanding the basics of footwork in FNC and how to use ring positioning...</p>
+                            <div class="mt-2 flex space-x-3">
+                                <button class="text-gray-400 hover:text-white text-sm flex items-center"><i class="far fa-thumbs-up mr-1"></i> 42</button>
+                                <button class="text-gray-400 hover:text-white text-sm flex items-center"><i class="far fa-comment mr-1"></i> 7</button>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full mt-4 bg-gray-800 hover:bg-gray-700 text-gray-300 py-2 rounded-md">View More</button>
+                    </div>
+
+                    <!-- Upcoming Events -->
+                    <div class="bg-custom-card rounded-lg shadow-lg p-4">
+                        <h2 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-calendar-alt text-custom-accent mr-2"></i> Upcoming Events</h2>
+                        
+                        <div class="space-y-4">
+                            <!-- Event Card -->
+                            <div class="bg-gray-800 rounded-lg p-3 flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="bg-custom-accent text-white rounded-md p-2 mr-4 text-center min-w-[60px]">
+                                        <p class="text-sm font-bold">MAR</p>
+                                        <p class="text-lg font-bold">21</p>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium">Spring Championship - Qualifier Round</h3>
+                                        <p class="text-sm text-gray-400">8:00 PM EST • 128 Participants</p>
+                                    </div>
+                                </div>
+                                <button class="bg-custom-accent hover:bg-purple-700 text-white px-3 py-1 rounded-md text-sm">Register</button>
+                            </div>
+                            
+                            <!-- Event Card -->
+                            <div class="bg-gray-800 rounded-lg p-3 flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="bg-custom-accent text-white rounded-md p-2 mr-4 text-center min-w-[60px]">
+                                        <p class="text-sm font-bold">MAR</p>
+                                        <p class="text-lg font-bold">25</p>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium">Middleweight Division Showcase</h3>
+                                        <p class="text-sm text-gray-400">7:00 PM EST • 64 Participants</p>
+                                    </div>
+                                </div>
+                                <button class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded-md text-sm">Waitlist</button>
+                            </div>
+                            
+                            <!-- Event Card -->
+                            <div class="bg-gray-800 rounded-lg p-3 flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="bg-custom-accent text-white rounded-md p-2 mr-4 text-center min-w-[60px]">
+                                        <p class="text-sm font-bold">APR</p>
+                                        <p class="text-lg font-bold">02</p>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium">Community Training Session</h3>
+                                        <p class="text-sm text-gray-400">6:30 PM EST • Open to All</p>
+                                    </div>
+                                </div>
+                                <button class="bg-custom-accent hover:bg-purple-700 text-white px-3 py-1 rounded-md text-sm">RSVP</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-6">
+                    <!-- Personal Stats -->
+                    <div class="bg-custom-card rounded-lg shadow-lg p-4">
+                        <h2 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-chart-line text-custom-accent mr-2"></i> Your Stats</h2>
+                        <div class="text-center p-4 border border-dashed border-gray-700 rounded-lg mb-4">
+                            <div class="flex justify-center mb-3">
+                                <img src="/api/placeholder/80/80" alt="Profile avatar" class="w-20 h-20 rounded-full">
+                            </div>
+                            <h3 class="font-bold text-lg">YourGamerTag</h3>
+                            <p class="text-custom-accent font-medium">Rank: #248</p>
+                            <p class="text-sm text-gray-400">Profile Completion: 60%</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-gray-800 p-3 rounded-lg text-center">
+                                <p class="text-gray-400 text-sm">Wins</p>
+                                <p class="text-xl font-bold">24</p>
+                            </div>
+                            <div class="bg-gray-800 p-3 rounded-lg text-center">
+                                <p class="text-gray-400 text-sm">Losses</p>
+                                <p class="text-xl font-bold">16</p>
+                            </div>
+                            <div class="bg-gray-800 p-3 rounded-lg text-center">
+                                <p class="text-gray-400 text-sm">Win Rate</p>
+                                <p class="text-xl font-bold">60%</p>
+                            </div>
+                            <div class="bg-gray-800 p-3 rounded-lg text-center">
+                                <p class="text-gray-400 text-sm">KO Rate</p>
+                                <p class="text-xl font-bold">32%</p>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-gray-800 hover:bg-gray-700 text-gray-300 py-2 rounded-md">View Full Stats</button>
+                    </div>
+                    
+                    <!-- Featured Content -->
+                    <div class="bg-custom-card rounded-lg shadow-lg p-4">
+                        <h2 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-star text-custom-accent mr-2"></i> Featured</h2>
+                        
+                        <div class="rounded-lg overflow-hidden mb-4">
+                            <img src="/api/placeholder/400/225" alt="Featured video thumbnail" class="w-full">
+                            <div class="p-3 bg-gray-800">
+                                <h3 class="font-medium">Pro Boxing Techniques: Counter Punching Mastery</h3>
+                                <p class="text-sm text-gray-400">by ChampCoach • 5.2k views</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-3 mb-4">
+                            <div class="flex items-center mb-2">
+                                <img src="/api/placeholder/40/40" alt="Featured member" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <h3 class="font-medium">Featured Member: RingMaster</h3>
+                                    <p class="text-xs text-gray-400">30-2 Record • Tournament Champion</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-300">"Focus on mastering defense first. The knockouts will come naturally after that."</p>
+                        </div>
+                        
+                        <button class="w-full bg-gray-800 hover:bg-gray-700 text-gray-300 py-2 rounded-md">Browse Content</button>
+                    </div>
+                    
+                    <!-- Find Players -->
+                    <div class="bg-custom-card rounded-lg shadow-lg p-4">
+                        <h2 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-user-friends text-custom-accent mr-2"></i> Players Online</h2>
+                        
+                        <div class="space-y-3 mb-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="relative">
+                                        <img src="/api/placeholder/40/40" alt="Player avatar" class="w-10 h-10 rounded-full mr-3">
+                                        <span class="absolute bottom-0 right-2 h-3 w-3 bg-green-500 rounded-full border-2 border-gray-800"></span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">SpeedyGloves</p>
+                                        <p class="text-xs text-gray-400">Looking for sparring partner</p>
+                                    </div>
+                                </div>
+                                <button class="text-custom-accent hover:text-purple-400"><i class="fas fa-plus-circle"></i></button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="relative">
+                                        <img src="/api/placeholder/40/40" alt="Player avatar" class="w-10 h-10 rounded-full mr-3">
+                                        <span class="absolute bottom-0 right-2 h-3 w-3 bg-green-500 rounded-full border-2 border-gray-800"></span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">HeavyHitter44</p>
+                                        <p class="text-xs text-gray-400">In training mode</p>
+                                    </div>
+                                </div>
+                                <button class="text-custom-accent hover:text-purple-400"><i class="fas fa-plus-circle"></i></button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="relative">
+                                        <img src="/api/placeholder/40/40" alt="Player avatar" class="w-10 h-10 rounded-full mr-3">
+                                        <span class="absolute bottom-0 right-2 h-3 w-3 bg-green-500 rounded-full border-2 border-gray-800"></span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">TKO_Champion</p>
+                                        <p class="text-xs text-gray-400">Available for matches</p>
+                                    </div>
+                                </div>
+                                <button class="text-custom-accent hover:text-purple-400"><i class="fas fa-plus-circle"></i></button>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-custom-accent hover:bg-purple-700 text-white py-2 rounded-md">Find More Players</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple JS for demonstration purposes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate notification
+            setTimeout(function() {
+                alert('Welcome to BoxingRival! Complete your profile to start connecting with other FNC players.');
+            }, 3000);
+            
+            // Click handlers for buttons would go here
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Button clicked:', this.textContent.trim());
+                });
+            });
+        });
+    </script>
+</body>
+</html>

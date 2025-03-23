@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forum Virtron</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    /* Custom Scrollbar Styles */
+    ::-webkit-scrollbar {
+      width: 10px; /* Width of the scrollbar */
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1f2937; /* Track color (gray-800) */
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #374151; /* Thumb color (gray-700) */
+      border-radius: 5px; /* Rounded corners */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4b5563; /* Thumb color on hover (gray-600) */
+    }
+  </style>
+</head>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const sidebarContent = document.getElementById('sidebar-content');
+    const sidebarIcons = document.getElementById('sidebar-icons');
+
+    sidebar.classList.toggle('w-16');
+    sidebar.classList.toggle('md:w-64');
+    sidebarContent.classList.toggle('hidden');
+    sidebarIcons.classList.toggle('hidden');
+  }
+
+  function autoMinimizeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const sidebarContent = document.getElementById('sidebar-content');
+  const sidebarIcons = document.getElementById('sidebar-icons');
+
+  // Hide sidebar completely on (medium) and very small screens
+  if (window.innerWidth < 768) {
+    sidebar.classList.add('hidden');
+  } else {
+    sidebar.classList.remove('hidden');
+    
+    // Minimize sidebar on medium screens
+    if (window.innerWidth < 1287) {
+      sidebar.classList.add('w-16');
+      sidebar.classList.remove('md:w-64');
+      sidebarContent.classList.add('hidden');
+      sidebarIcons.classList.remove('hidden');
+    } else {
+      sidebar.classList.remove('w-16');
+      sidebar.classList.add('md:w-64');
+      sidebarContent.classList.remove('hidden');
+      sidebarIcons.classList.add('hidden');
+    }
+  }
+}
+
+  window.addEventListener('resize', autoMinimizeSidebar);
+  window.addEventListener('load', autoMinimizeSidebar);
+</script>
+<body class="bg-gray-900 h-screen flex flex-col">
+  <!-- Navigation -->
+  <header class="bg-gray-800 shadow-sm sticky top-0 z-10">
+    <div class="container px-4 py-3 flex items-center justify-between">
+      <!-- Left Section: Hamburger + Logo (Fixed Width) -->
+      <div class="flex items-center space-x-4 w-[200px]">
+        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300" onclick="toggleSidebar()">
+            <i class="fas fa-bars text-gray-300"></i>
+        </button>
+        <!-- Replacing text with logo -->
+        <img src="logo.png" alt="Virtron Logo" class="h-7">
+    </div>
+  
+      <!-- Search Bar (Centered but Doesn't Push Other Elements) -->
+<!-- Search Bar Section -->
+<div class="flex items-center flex-grow max-w-xl justify-center">
+  <!-- Search Bar (Visible on Small and Larger Screens) -->
+  <div class="hidden sm:flex relative w-full">
+    <input type="text" placeholder="Search topics" class="w-full px-4 py-2 rounded-full border border-gray-700 bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+    <button class="absolute right-3 top-2">
+      <i class="fas fa-search text-gray-400"></i>
+    </button>
+  </div>
+
+  <!-- Search Icon (Only Visible on Small Screens) -->
+  <button class="sm:hidden w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+    <i class="fas fa-search"></i>
+  </button>
+</div>
+
+  
+      <!-- Right Section: User Controls (Fixed Width) -->
+      <div class="flex items-center space-x-4 w-[200px] justify-end">
+        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <i class="fas fa-plus text-gray-300"></i>
+        </button>
+        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <i class="fas fa-bell text-gray-300"></i>
+        </button>
+        <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+          <i class="fas fa-user"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="hidden md:block w-full md:w-64 bg-gray-800 shadow-md overflow-y-auto transition-all duration-300">
+      <div class="p-4">
+        <div id="sidebar-content">
+          <nav class="space-y-2">
+            <a href="/" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
+              <i class="fas fa-home mr-3"></i>
+              <span>Home</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-fire mr-3"></i>
+              <span>Getting Started</span>
+            </a>
+            <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-star mr-3"></i>
+              <span>Code of Conduct</span>
+            </a>
+            <a href="/trending" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-fire mr-3"></i>
+              <span>Fight Hype</span>
+            </a>
+            <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-star mr-3"></i>
+              <span>Promoters</span>
+            </a>
+            <hr class="my-3 border-gray-700">
+            <a href="/saved" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-bookmark mr-3"></i>
+              <span>Saved</span>
+            </a>
+            <a href="/history" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-history mr-3"></i>
+              <span>PPV</span>
+            </a>
+          </nav>
+
+          <hr class="my-3 border-gray-700">
+
+          <h3 class="font-medium px-3 mb-2 text-gray-300">Popular Categories</h3>
+          <nav class="space-y-1">
+            <a href="/category/technology" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-laptop mr-3"></i>
+              <span>Technology</span>
+            </a>
+            <a href="/category/gaming" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-gamepad mr-3"></i>
+              <span>Gaming</span>
+            </a>
+            <a href="/category/art-design" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-paint-brush mr-3"></i>
+              <span>Forum</span>
+            </a>
+            <a href="/category/sports" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-futbol mr-3"></i>
+              <span>EAC</span>
+            </a>
+            <a href="/category/music" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-music mr-3"></i>
+              <span>FytRec</span>
+            </a>
+          </nav>
+          <div style="height: 500px"></div>
+        </div>
+
+        <div id="sidebar-icons" class="hidden">
+          <nav class="space-y-2">
+            <a href="/" class="flex items-center justify-center p-3 rounded-lg bg-gray-700 text-gray-300">
+              <i class="fas fa-home"></i>
+            </a>
+            <a href="/trending" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-fire"></i>
+            </a>
+            <a href="/subscriptions" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-star"></i>
+            </a>
+            <hr class="my-3 border-gray-700">
+            <a href="/saved" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-bookmark"></i>
+            </a>
+            <a href="/history" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-history"></i>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </aside>
+    
+    <main class="flex-1 overflow-y-auto bg-gray-900 p-6">
+      <!-- Welcome Banner -->
+      <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl p-6 mb-6 shadow-lg">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-white text-2xl font-bold">Welcome to Forum Virtron!</h1>
+            <p class="text-blue-100 mt-2">Your journey in the boxing world starts here. Complete your profile to unlock all features.</p>
+          </div>
+          <button class="bg-white text-blue-700 hover:bg-blue-50 px-4 py-2 rounded-lg font-medium transition">
+            Complete Your Profile
+          </button>
+        </div>
+      </div>
+    
+      <!-- Profile Completion Status -->
+      <div class="bg-gray-800 rounded-lg p-4 shadow-md mb-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+          <h3 class="text-white font-medium">Profile Completion</h3>
+          <span class="text-gray-300 text-sm">2/5 steps completed</span>
+        </div>
+        <div class="w-full bg-gray-700 rounded-full h-2.5 mb-4">
+          <div class="bg-blue-600 h-2.5 rounded-full" style="width: 40%"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 text-center">
+          <div class="bg-gray-700 rounded-lg p-3 border-2 border-green-500">
+            <i class="fas fa-user-circle text-green-400 text-xl mb-2"></i>
+            <p class="text-white text-sm">Basic Info</p>
+            <span class="text-green-400 text-xs">Completed</span>
+          </div>
+          <div class="bg-gray-700 rounded-lg p-3 border-2 border-green-500">
+            <i class="fas fa-envelope text-green-400 text-xl mb-2"></i>
+            <p class="text-white text-sm">Verification</p>
+            <span class="text-green-400 text-xs">Completed</span>
+          </div>
+          <div class="bg-gray-700 rounded-lg p-3 border-2 border-blue-500 border-dashed">
+            <i class="fas fa-user-tag text-blue-400 text-xl mb-2"></i>
+            <p class="text-white text-sm">Select Role</p>
+            <span class="text-blue-400 text-xs">Next Step</span>
+          </div>
+          <div class="bg-gray-700 rounded-lg p-3 opacity-70">
+            <i class="fas fa-id-card text-gray-400 text-xl mb-2"></i>
+            <p class="text-white text-sm">Experience</p>
+            <span class="text-gray-400 text-xs">Locked</span>
+          </div>
+          <div class="bg-gray-700 rounded-lg p-3 opacity-70">
+            <i class="fas fa-check-circle text-gray-400 text-xl mb-2"></i>
+            <p class="text-white text-sm">Approval</p>
+            <span class="text-gray-400 text-xs">Locked</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Choose Your Role -->
+      <div class="bg-gray-800 rounded-lg p-6 shadow-md mb-6">
+        <h3 class="text-white font-medium text-xl mb-6">Choose Your Role</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+          <!-- Fighter Card -->
+          <div class="bg-gray-700 hover:bg-gray-600 rounded-lg p-6 cursor-pointer transition group">
+            <div class="w-16 h-16 rounded-full bg-blue-600 mb-4 flex items-center justify-center text-white text-3xl group-hover:bg-blue-500 transition">
+              <i class="fas fa-fist-raised"></i>
+            </div>
+            <h4 class="text-white text-lg font-medium mb-2">Fighter</h4>
+            <p class="text-gray-400 text-sm mb-4">Track your career, manage fights, follow your performance stats, and connect with fans.</p>
+            <ul class="text-gray-300 text-sm space-y-2 mb-4">
+              <li><i class="fas fa-check text-blue-400 mr-2"></i>Fight management</li>
+              <li><i class="fas fa-check text-blue-400 mr-2"></i>Performance tracking</li>
+              <li><i class="fas fa-check text-blue-400 mr-2"></i>Career statistics</li>
+            </ul>
+            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition">Select</button>
+          </div>
+          
+          <!-- Manager Card -->
+          <div class="bg-gray-700 hover:bg-gray-600 rounded-lg p-6 cursor-pointer transition group">
+            <div class="w-16 h-16 rounded-full bg-purple-600 mb-4 flex items-center justify-center text-white text-3xl group-hover:bg-purple-500 transition">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <h4 class="text-white text-lg font-medium mb-2">Manager</h4>
+            <p class="text-gray-400 text-sm mb-4">Represent fighters, negotiate contracts, and build your management career.</p>
+            <ul class="text-gray-300 text-sm space-y-2 mb-4">
+              <li><i class="fas fa-check text-purple-400 mr-2"></i>Fighter portfolio</li>
+              <li><i class="fas fa-check text-purple-400 mr-2"></i>Contract negotiation</li>
+              <li><i class="fas fa-check text-purple-400 mr-2"></i>Career development</li>
+            </ul>
+            <button class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition">Select</button>
+          </div>
+          
+          <!-- Promoter Card -->
+          <div class="bg-gray-700 hover:bg-gray-600 rounded-lg p-6 cursor-pointer transition group">
+            <div class="w-16 h-16 rounded-full bg-amber-600 mb-4 flex items-center justify-center text-white text-3xl group-hover:bg-amber-500 transition">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <h4 class="text-white text-lg font-medium mb-2">Promoter</h4>
+            <p class="text-gray-400 text-sm mb-4">Organize events, sign fighters, and build your own boxing promotion company.</p>
+            <ul class="text-gray-300 text-sm space-y-2 mb-4">
+              <li><i class="fas fa-check text-amber-400 mr-2"></i>Event management</li>
+              <li><i class="fas fa-check text-amber-400 mr-2"></i>Revenue tracking</li>
+              <li><i class="fas fa-check text-amber-400 mr-2"></i>Fighter contracts</li>
+            </ul>
+            <button class="w-full bg-amber-600 hover:bg-amber-700 text-white py-2 rounded-lg transition">Select</button>
+          </div>
+          
+          <!-- Trainer Card -->
+          <div class="bg-gray-700 hover:bg-gray-600 rounded-lg p-6 cursor-pointer transition group">
+            <div class="w-16 h-16 rounded-full bg-red-600 mb-4 flex items-center justify-center text-white text-3xl group-hover:bg-red-500 transition">
+              <i class="fas fa-dumbbell"></i>
+            </div>
+            <h4 class="text-white text-lg font-medium mb-2">Trainer</h4>
+            <p class="text-gray-400 text-sm mb-4">Develop fighters, create training programs, and build your reputation in the boxing world.</p>
+            <ul class="text-gray-300 text-sm space-y-2 mb-4">
+              <li><i class="fas fa-check text-red-400 mr-2"></i>Fighter development</li>
+              <li><i class="fas fa-check text-red-400 mr-2"></i>Training programs</li>
+              <li><i class="fas fa-check text-red-400 mr-2"></i>Performance analysis</li>
+            </ul>
+            <button class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg transition">Select</button>
+          </div>
+          
+          <!-- Matchmaker Card -->
+          <div class="bg-gray-700 hover:bg-gray-600 rounded-lg p-6 cursor-pointer transition group">
+            <div class="w-16 h-16 rounded-full bg-indigo-600 mb-4 flex items-center justify-center text-white text-3xl group-hover:bg-indigo-500 transition">
+              <i class="fas fa-chess"></i>
+            </div>
+            <h4 class="text-white text-lg font-medium mb-2">Matchmaker</h4>
+            <p class="text-gray-400 text-sm mb-4">Create compelling fight cards, pair fighters strategically, and build exciting events.</p>
+            <ul class="text-gray-300 text-sm space-y-2 mb-4">
+              <li><i class="fas fa-check text-indigo-400 mr-2"></i>Fight pairing</li>
+              <li><i class="fas fa-check text-indigo-400 mr-2"></i>Card building</li>
+              <li><i class="fas fa-check text-indigo-400 mr-2"></i>Fighter analysis</li>
+            </ul>
+            <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg transition">Select</button>
+          </div>
+          
+          <!-- Official Card -->
+          <div class="bg-gray-700 hover:bg-gray-600 rounded-lg p-6 cursor-pointer transition group">
+            <div class="w-16 h-16 rounded-full bg-teal-600 mb-4 flex items-center justify-center text-white text-3xl group-hover:bg-teal-500 transition">
+              <i class="fas fa-gavel"></i>
+            </div>
+            <h4 class="text-white text-lg font-medium mb-2">Official</h4>
+            <p class="text-gray-400 text-sm mb-4">Work as supervisor or judge, manage bout regulations, and uphold boxing standards.</p>
+            <ul class="text-gray-300 text-sm space-y-2 mb-4">
+              <li><i class="fas fa-check text-teal-400 mr-2"></i>Bout officiating</li>
+              <li><i class="fas fa-check text-teal-400 mr-2"></i>Rules enforcement</li>
+              <li><i class="fas fa-check text-teal-400 mr-2"></i>Performance review</li>
+            </ul>
+            <button class="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg transition">Select</button>
+          </div>
+          
+          <!-- Media Card -->
+          <div class="bg-gray-700 hover:bg-gray-600 rounded-lg p-6 cursor-pointer transition group">
+            <div class="w-16 h-16 rounded-full bg-pink-600 mb-4 flex items-center justify-center text-white text-3xl group-hover:bg-pink-500 transition">
+              <i class="fas fa-microphone"></i>
+            </div>
+            <h4 class="text-white text-lg font-medium mb-2">Media</h4>
+            <p class="text-gray-400 text-sm mb-4">Cover events, interview fighters, and produce boxing content for your audience.</p>
+            <ul class="text-gray-300 text-sm space-y-2 mb-4">
+              <li><i class="fas fa-check text-pink-400 mr-2"></i>Event coverage</li>
+              <li><i class="fas fa-check text-pink-400 mr-2"></i>Fighter interviews</li>
+              <li><i class="fas fa-check text-pink-400 mr-2"></i>Content creation</li>
+            </ul>
+            <button class="w-full bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg transition">Select</button>
+          </div>
+          
+          <!-- Medical Professional Card -->
+          <div class="bg-gray-700 hover:bg-gray-600 rounded-lg p-6 cursor-pointer transition group">
+            <div class="w-16 h-16 rounded-full bg-emerald-600 mb-4 flex items-center justify-center text-white text-3xl group-hover:bg-emerald-500 transition">
+              <i class="fas fa-heartbeat"></i>
+            </div>
+            <h4 class="text-white text-lg font-medium mb-2">Medical Professional</h4>
+            <p class="text-gray-400 text-sm mb-4">Support fighter health, provide medical clearance, and ensure safety standards.</p>
+            <ul class="text-gray-300 text-sm space-y-2 mb-4">
+              <li><i class="fas fa-check text-emerald-400 mr-2"></i>Fighter examinations</li>
+              <li><i class="fas fa-check text-emerald-400 mr-2"></i>Injury assessment</li>
+              <li><i class="fas fa-check text-emerald-400 mr-2"></i>Health protocols</li>
+            </ul>
+            <button class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg transition">Select</button>
+          </div>
+
+          <!-- Analyst Card -->
+          <div class="bg-gray-700 hover:bg-gray-600 rounded-lg p-6 cursor-pointer transition group">
+            <div class="w-16 h-16 rounded-full bg-green-600 mb-4 flex items-center justify-center text-white text-3xl group-hover:bg-green-500 transition">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h4 class="text-white text-lg font-medium mb-2">Analyst</h4>
+            <p class="text-gray-400 text-sm mb-4">Analyze fights, provide insights, and help fighters improve or develop strategies.</p>
+            <ul class="text-gray-300 text-sm space-y-2 mb-4">
+              <li><i class="fas fa-check text-green-400 mr-2"></i>Fight analysis</li>
+              <li><i class="fas fa-check text-green-400 mr-2"></i>Performance insights</li>
+              <li><i class="fas fa-check text-green-400 mr-2"></i>Strategy improvement</li>
+            </ul>
+            <button class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition">Select</button>
+          </div>
+
+          <!-- Ring Announcer Card -->
+          <div class="bg-gray-700 hover:bg-gray-600 rounded-lg p-6 cursor-pointer transition group">
+            <div class="w-16 h-16 rounded-full bg-orange-600 mb-4 flex items-center justify-center text-white text-3xl group-hover:bg-orange-500 transition">
+              <i class="fas fa-bullhorn"></i>
+            </div>
+            <h4 class="text-white text-lg font-medium mb-2">Ring Announcer</h4>
+            <p class="text-gray-400 text-sm mb-4">Introduce fighters, announce decisions, and energize the crowd at boxing events.</p>
+            <ul class="text-gray-300 text-sm space-y-2 mb-4">
+              <li><i class="fas fa-check text-orange-400 mr-2"></i>Fighter introductions</li>
+              <li><i class="fas fa-check text-orange-400 mr-2"></i>Result announcements</li>
+              <li><i class="fas fa-check text-orange-400 mr-2"></i>Event presentation</li>
+            </ul>
+            <button class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg transition">Select</button>
+          </div>
+          
+          <!-- Commentator Card -->
+          <div class="bg-gray-700 hover:bg-gray-600 rounded-lg p-6 cursor-pointer transition group">
+            <div class="w-16 h-16 rounded-full bg-cyan-600 mb-4 flex items-center justify-center text-white text-3xl group-hover:bg-cyan-500 transition">
+              <i class="fas fa-broadcast-tower"></i>
+            </div>
+            <h4 class="text-white text-lg font-medium mb-2">Commentator</h4>
+            <p class="text-gray-400 text-sm mb-4">Provide expert analysis, call the action, and engage audiences during broadcasts.</p>
+            <ul class="text-gray-300 text-sm space-y-2 mb-4">
+              <li><i class="fas fa-check text-cyan-400 mr-2"></i>Fight analysis</li>
+              <li><i class="fas fa-check text-cyan-400 mr-2"></i>Broadcast coverage</li>
+              <li><i class="fas fa-check text-cyan-400 mr-2"></i>Technical insights</li>
+            </ul>
+            <button class="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded-lg transition">Select</button>
+          </div>
+          
+          <!-- Second (Cornerman) Card -->
+          <div class="bg-gray-700 hover:bg-gray-600 rounded-lg p-6 cursor-pointer transition group">
+            <div class="w-16 h-16 rounded-full bg-lime-600 mb-4 flex items-center justify-center text-white text-3xl group-hover:bg-lime-500 transition">
+              <i class="fas fa-first-aid"></i>
+            </div>
+            <h4 class="text-white text-lg font-medium mb-2">Second (Cornerman)</h4>
+            <p class="text-gray-400 text-sm mb-4">Support fighters between rounds, manage injuries, and provide tactical advice.</p>
+            <ul class="text-gray-300 text-sm space-y-2 mb-4">
+              <li><i class="fas fa-check text-lime-400 mr-2"></i>Corner management</li>
+              <li><i class="fas fa-check text-lime-400 mr-2"></i>Fighter support</li>
+              <li><i class="fas fa-check text-lime-400 mr-2"></i>Tactical assistance</li>
+            </ul>
+            <button class="w-full bg-lime-600 hover:bg-lime-700 text-white py-2 rounded-lg transition">Select</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Upcoming Events -->
+      <div class="bg-gray-800 rounded-lg p-6 shadow-md mb-6">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-white font-medium text-xl">Upcoming Events</h3>
+          <button class="text-blue-400 hover:text-blue-300 text-sm">View All</button>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="bg-gray-700 rounded-lg overflow-hidden">
+            <img src="/api/placeholder/400/200" alt="Championship Boxing Night" class="w-full h-40 object-cover" />
+            <div class="p-4">
+              <h4 class="text-white font-medium">Championship Night</h4>
+              <div class="flex items-center text-gray-400 text-sm mt-2">
+                <i class="far fa-calendar-alt mr-2"></i>
+                <span>May 15, 2025</span>
+              </div>
+              <div class="flex items-center text-gray-400 text-sm mt-1">
+                <i class="fas fa-map-marker-alt mr-2"></i>
+                <span>MGM Grand, Las Vegas</span>
+              </div>
+              <div class="mt-4">
+                <span class="inline-block bg-gray-600 rounded-full px-3 py-1 text-sm font-semibold text-gray-300 mr-2">Heavyweight</span>
+                <span class="inline-block bg-blue-600 rounded-full px-3 py-1 text-sm font-semibold text-white">Title Fight</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gray-700 rounded-lg overflow-hidden">
+            <img src="/api/placeholder/400/200" alt="Rising Stars Showcase" class="w-full h-40 object-cover" />
+            <div class="p-4">
+              <h4 class="text-white font-medium">Rising Stars Showcase</h4>
+              <div class="flex items-center text-gray-400 text-sm mt-2">
+                <i class="far fa-calendar-alt mr-2"></i>
+                <span>June 12, 2025</span>
+              </div>
+              <div class="flex items-center text-gray-400 text-sm mt-1">
+                <i class="fas fa-map-marker-alt mr-2"></i>
+                <span>Barclays Center, Brooklyn</span>
+              </div>
+              <div class="mt-4">
+                <span class="inline-block bg-gray-600 rounded-full px-3 py-1 text-sm font-semibold text-gray-300 mr-2">Multiple Divisions</span>
+                <span class="inline-block bg-green-600 rounded-full px-3 py-1 text-sm font-semibold text-white">Featured</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gray-700 rounded-lg overflow-hidden">
+            <img src="/api/placeholder/400/200" alt="International Showdown" class="w-full h-40 object-cover" />
+            <div class="p-4">
+              <h4 class="text-white font-medium">International Showdown</h4>
+              <div class="flex items-center text-gray-400 text-sm mt-2">
+                <i class="far fa-calendar-alt mr-2"></i>
+                <span>July 8, 2025</span>
+              </div>
+              <div class="flex items-center text-gray-400 text-sm mt-1">
+                <i class="fas fa-map-marker-alt mr-2"></i>
+                <span>Wembley Stadium, London</span>
+              </div>
+              <div class="mt-4">
+                <span class="inline-block bg-gray-600 rounded-full px-3 py-1 text-sm font-semibold text-gray-300 mr-2">Lightweight</span>
+                <span class="inline-block bg-purple-600 rounded-full px-3 py-1 text-sm font-semibold text-white">International</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Boxing News -->
+      <div class="bg-gray-800 rounded-lg p-6 shadow-md">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-white font-medium text-xl">Latest Boxing News</h3>
+          <button class="text-blue-400 hover:text-blue-300 text-sm">View All</button>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="flex flex-col md:flex-row gap-4 pb-4 border-b border-gray-700">
+            <img src="/api/placeholder/150/150" alt="News Image" class="w-full md:w-32 h-32 object-cover rounded-lg" />
+            <div>
+              <h4 class="text-white font-medium">Tyson and Lewis Set for Historic Rematch</h4>
+              <p class="text-gray-400 text-sm mt-2">The boxing world is buzzing with excitement as legendary heavyweights Mike Tyson and Lennox Lewis have agreed to a rematch...</p>
+              <div class="flex items-center mt-2">
+                <span class="text-blue-400 text-sm">Read More</span>
+                <span class="text-gray-500 text-sm ml-auto">March 10, 2025</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex flex-col md:flex-row gap-4 pb-4 border-b border-gray-700">
+            <img src="/api/placeholder/150/150" alt="News Image" class="w-full md:w-32 h-32 object-cover rounded-lg" />
+            <div>
+              <h4 class="text-white font-medium">New Streaming Deal Transforms Boxing Broadcast Landscape</h4>
+              <p class="text-gray-400 text-sm mt-2">Major streaming platforms have entered a bidding war for</p>
+            </div>
+          </div>
+        </main>
+    
+    </div>
+  </body>
+  </html>

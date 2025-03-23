@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forum Virtron</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    /* Custom Scrollbar Styles */
+    ::-webkit-scrollbar {
+      width: 10px; /* Width of the scrollbar */
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1f2937; /* Track color (gray-800) */
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #374151; /* Thumb color (gray-700) */
+      border-radius: 5px; /* Rounded corners */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4b5563; /* Thumb color on hover (gray-600) */
+    }
+  </style>
+</head>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const sidebarContent = document.getElementById('sidebar-content');
+    const sidebarIcons = document.getElementById('sidebar-icons');
+
+    sidebar.classList.toggle('w-16');
+    sidebar.classList.toggle('md:w-64');
+    sidebarContent.classList.toggle('hidden');
+    sidebarIcons.classList.toggle('hidden');
+  }
+
+  function autoMinimizeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const sidebarContent = document.getElementById('sidebar-content');
+  const sidebarIcons = document.getElementById('sidebar-icons');
+
+  // Hide sidebar completely on (medium) and very small screens
+  if (window.innerWidth < 768) {
+    sidebar.classList.add('hidden');
+  } else {
+    sidebar.classList.remove('hidden');
+    
+    // Minimize sidebar on medium screens
+    if (window.innerWidth < 1287) {
+      sidebar.classList.add('w-16');
+      sidebar.classList.remove('md:w-64');
+      sidebarContent.classList.add('hidden');
+      sidebarIcons.classList.remove('hidden');
+    } else {
+      sidebar.classList.remove('w-16');
+      sidebar.classList.add('md:w-64');
+      sidebarContent.classList.remove('hidden');
+      sidebarIcons.classList.add('hidden');
+    }
+  }
+}
+
+  window.addEventListener('resize', autoMinimizeSidebar);
+  window.addEventListener('load', autoMinimizeSidebar);
+</script>
+<body class="bg-gray-900 h-screen flex flex-col">
+  <!-- Navigation -->
+  <header class="bg-gray-800 shadow-sm sticky top-0 z-10">
+    <div class="container px-4 py-3 flex items-center justify-between">
+      <!-- Left Section: Hamburger + Logo (Fixed Width) -->
+      <div class="flex items-center space-x-4 w-[200px]">
+        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300" onclick="toggleSidebar()">
+            <i class="fas fa-bars text-gray-300"></i>
+        </button>
+        <!-- Replacing text with logo -->
+        <img src="logo.png" alt="Virtron Logo" class="h-7">
+    </div>
+  
+      <!-- Search Bar (Centered but Doesn't Push Other Elements) -->
+<!-- Search Bar Section -->
+<div class="flex items-center flex-grow max-w-xl justify-center">
+  <!-- Search Bar (Visible on Small and Larger Screens) -->
+  <div class="hidden sm:flex relative w-full">
+    <input type="text" placeholder="Search topics" class="w-full px-4 py-2 rounded-full border border-gray-700 bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+    <button class="absolute right-3 top-2">
+      <i class="fas fa-search text-gray-400"></i>
+    </button>
+  </div>
+
+  <!-- Search Icon (Only Visible on Small Screens) -->
+  <button class="sm:hidden w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+    <i class="fas fa-search"></i>
+  </button>
+</div>
+
+  
+      <!-- Right Section: User Controls (Fixed Width) -->
+      <div class="flex items-center space-x-4 w-[200px] justify-end">
+        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <i class="fas fa-plus text-gray-300"></i>
+        </button>
+        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <i class="fas fa-bell text-gray-300"></i>
+        </button>
+        <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+          <i class="fas fa-user"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="hidden md:block w-full md:w-64 bg-gray-800 shadow-md overflow-y-auto transition-all duration-300">
+      <div class="p-4">
+        <div id="sidebar-content">
+          <nav class="space-y-2">
+            <a href="/" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
+              <i class="fas fa-home mr-3"></i>
+              <span>Home</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-fire mr-3"></i>
+              <span>Getting Started</span>
+            </a>
+            <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-star mr-3"></i>
+              <span>Code of Conduct</span>
+            </a>
+            <a href="/trending" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-fire mr-3"></i>
+              <span>Fight Hype</span>
+            </a>
+            <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-star mr-3"></i>
+              <span>Promoters</span>
+            </a>
+            <hr class="my-3 border-gray-700">
+            <a href="/saved" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-bookmark mr-3"></i>
+              <span>Saved</span>
+            </a>
+            <a href="/history" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-history mr-3"></i>
+              <span>PPV</span>
+            </a>
+          </nav>
+
+          <hr class="my-3 border-gray-700">
+
+          <h3 class="font-medium px-3 mb-2 text-gray-300">Popular Categories</h3>
+          <nav class="space-y-1">
+            <a href="/category/technology" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-laptop mr-3"></i>
+              <span>Technology</span>
+            </a>
+            <a href="/category/gaming" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-gamepad mr-3"></i>
+              <span>Gaming</span>
+            </a>
+            <a href="/category/art-design" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-paint-brush mr-3"></i>
+              <span>Forum</span>
+            </a>
+            <a href="/category/sports" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-futbol mr-3"></i>
+              <span>EAC</span>
+            </a>
+            <a href="/category/music" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-music mr-3"></i>
+              <span>FytRec</span>
+            </a>
+          </nav>
+          <div style="height: 500px"></div>
+        </div>
+
+        <div id="sidebar-icons" class="hidden">
+          <nav class="space-y-2">
+            <a href="/" class="flex items-center justify-center p-3 rounded-lg bg-gray-700 text-gray-300">
+              <i class="fas fa-home"></i>
+            </a>
+            <a href="/trending" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-fire"></i>
+            </a>
+            <a href="/subscriptions" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-star"></i>
+            </a>
+            <hr class="my-3 border-gray-700">
+            <a href="/saved" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-bookmark"></i>
+            </a>
+            <a href="/history" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-history"></i>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 p-4 overflow-y-auto">
+      <div class="max-w-4xl mx-auto">
+        <!-- Welcome Section -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
+          <h2 class="text-2xl font-bold text-gray-300 mb-4">Welcome to Forum Virtron</h2>
+          <p class="text-gray-400 mb-4">
+            You currently have no roles or licenses. To get started, apply for a license to become a fighter, manager, promoter, or other roles.
+          </p>
+          <a href="/eac-application" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+            Apply for a License
+          </a>
+        </div>
+    
+        <!-- Roles Section (Hidden by Default) -->
+        <div id="roles-section" class="bg-gray-800 p-6 rounded-lg shadow-lg mb-6 hidden">
+          <h3 class="text-xl font-bold text-gray-300 mb-4">Your Roles</h3>
+          <div id="roles-dropdown" class="mb-4">
+            <label for="roles" class="block text-sm font-medium text-gray-300">Select Role</label>
+            <select id="roles" class="mt-1 block w-full pl-3 pr-10 py-2 text-base bg-gray-700 border-gray-600 text-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+              <option>Select a role</option>
+              <!-- Roles will be dynamically added here -->
+            </select>
+          </div>
+          <p class="text-gray-400 text-sm">Switch to a specific role's dashboard to access its features.</p>
+        </div>
+    
+        <!-- Quick Links Section -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
+          <h3 class="text-xl font-bold text-gray-300 mb-4">Quick Links</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <a href="/getting-started" class="bg-gray-700 p-4 rounded-lg hover:bg-gray-600 transition duration-300">
+              <div class="flex items-center space-x-3">
+                <i class="fas fa-fire text-blue-500"></i>
+                <span class="text-gray-300">Getting Started</span>
+              </div>
+            </a>
+            <a href="/code-of-conduct" class="bg-gray-700 p-4 rounded-lg hover:bg-gray-600 transition duration-300">
+              <div class="flex items-center space-x-3">
+                <i class="fas fa-star text-blue-500"></i>
+                <span class="text-gray-300">Code of Conduct</span>
+              </div>
+            </a>
+            <a href="/forum" class="bg-gray-700 p-4 rounded-lg hover:bg-gray-600 transition duration-300">
+              <div class="flex items-center space-x-3">
+                <i class="fas fa-paint-brush text-blue-500"></i>
+                <span class="text-gray-300">Community Forum</span>
+              </div>
+            </a>
+            <a href="/fytrec" class="bg-gray-700 p-4 rounded-lg hover:bg-gray-600 transition duration-300">
+              <div class="flex items-center space-x-3">
+                <i class="fas fa-music text-blue-500"></i>
+                <span class="text-gray-300">FytRec</span>
+              </div>
+            </a>
+          </div>
+        </div>
+    
+        <!-- Recent Activity Section -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-bold text-gray-300 mb-4">Recent Activity</h3>
+          <div class="space-y-4">
+            <div class="bg-gray-700 p-4 rounded-lg">
+              <p class="text-gray-400">No recent activity. Once you have a role, your activity will appear here.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+  </div>
+  </body>
+  </html>

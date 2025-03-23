@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoxingRival - Boxing Community Platform</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .bg-custom-dark {
+            background-color: #121212;
+        }
+        .bg-custom-card {
+            background-color: #1e1e1e;
+        }
+        .bg-custom-accent {
+            background-color: #8257e5;
+        }
+        .text-custom-accent {
+            color: #8257e5;
+        }
+        .border-custom-accent {
+            border-color: #8257e5;
+        }
+    </style>
+</head>
+<body class="bg-custom-dark text-gray-300">
+    <!-- Top Navigation -->
+    <nav class="bg-black px-4 py-3 flex justify-between items-center shadow-md sticky top-0 z-50">
+        <div class="flex items-center space-x-2">
+            <span class="text-xl font-bold text-white"><i class="fas fa-fist-raised text-custom-accent mr-2"></i>BoxingRival</span>
+        </div>
+        <div class="flex items-center space-x-6">
+            <a href="#" class="text-gray-400 hover:text-white"><i class="far fa-bell"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="far fa-envelope"></i></a>
+            <div class="relative">
+                <img src="/api/placeholder/48/48" alt="User avatar" class="w-8 h-8 rounded-full cursor-pointer">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="flex">
+        <!-- Side Navigation -->
+        <div class="w-64 h-screen bg-black flex-shrink-0 fixed pt-6 px-2 hidden md:block">
+            <ul class="space-y-3">
+                <li><a href="#" class="flex items-center px-4 py-3 bg-custom-accent rounded-lg text-white"><i class="fas fa-home mr-3"></i> Dashboard</a></li>
+                <li><a href="#" class="flex items-center px-4 py-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-users mr-3"></i> Community</a></li>
+                <li><a href="#" class="flex items-center px-4 py-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-trophy mr-3"></i> Events</a></li>
+                <li><a href="#" class="flex items-center px-4 py-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-book mr-3"></i> Resources</a></li>
+                <li><a href="#" class="flex items-center px-4 py-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-comments mr-3"></i> Forums</a></li>
+                <li><a href="#" class="flex items-center px-4 py-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-user mr-3"></i> Profile</a></li>
+                <li><a href="#" class="flex items-center px-4 py-3 hover:bg-gray-800 rounded-lg"><i class="fas fa-cog mr-3"></i> Settings</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="md:ml-64 flex-1 p-4">
+            <!-- Complete Profile Alert -->
+            <div class="mb-6 bg-gray-800 border-l-4 border-custom-accent rounded-md p-4 flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-circle text-custom-accent mr-3 text-xl"></i>
+                    <div>
+                        <p class="font-medium">Complete your profile to get the most out of BoxingRival!</p>
+                        <p class="text-sm text-gray-400">Select your role and add your Xbox gamertag to connect with the community.</p>
+                    </div>
+                </div>
+                <button class="bg-custom-accent hover:bg-purple-700 text-white px-4 py-2 rounded-md">Complete Now</button>
+            </div>
+
+            <!-- Role Selection Banner (for new users) -->
+            <div class="mb-6 bg-gray-800 rounded-md p-4">
+                <h3 class="font-bold mb-3">What's your role in the boxing community?</h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    <button class="bg-custom-card hover:bg-gray-700 p-3 rounded-lg text-center">
+                        <i class="fas fa-user-ninja text-2xl mb-2 text-custom-accent"></i>
+                        <p class="text-sm">Fighter</p>
+                    </button>
+                    <button class="bg-custom-card hover:bg-gray-700 p-3 rounded-lg text-center">
+                        <i class="fas fa-user-tie text-2xl mb-2 text-custom-accent"></i>
+                        <p class="text-sm">Promoter</p>
+                    </button>
+                    <button class="bg-custom-card hover:bg-gray-700 p-3 rounded-lg text-center">
+                        <i class="fas fa-user-cog text-2xl mb-2 text-custom-accent"></i>
+                        <p class="text-sm">Manager</p>
+                    </button>
+                    <button class="bg-custom-card hover:bg-gray-700 p-3 rounded-lg text-center">
+                        <i class="fas fa-chalkboard-teacher text-2xl mb-2 text-custom-accent"></i>
+                        <p class="text-sm">Trainer</p>
+                    </button>
+                    <button class="bg-custom-card hover:bg-gray-700 p-3 rounded-lg text-center">
+                        <i class="fas fa-microphone text-2xl mb-2 text-custom-accent"></i>
+                        <p class="text-sm">Ring Announcer</p>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Activity Feed -->
+                    <div class="bg-custom-card rounded-lg shadow-lg p-4">
+                        <h2 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-rss text-custom-accent mr-2"></i> Community Activity</h2>
+                        
+                        <!-- Activity Item -->
+                        <div class="border-b border-gray-700 pb-4 mb-4">
+                            <div class="flex items-center mb-2">
+                                <img src="/api/placeholder/40/40" alt="User avatar" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium">KnockoutKing <span class="text-gray-500 text-sm font-normal">Fighter</span> <span class="text-gray-500 text-sm">posted in</span> <span class="text-custom-accent">Strategy Discussion</span></p>
+                                    <p class="text-xs text-gray-500">2 hours ago</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300">Just discovered a new counter technique for aggressive fighters! Check out my video breakdown...</p>
+                            <div class="mt-2 flex space-x-3">
+                                <button class="text-gray-400 hover:text-white text-sm flex items-center"><i class="far fa-thumbs-up mr-1"></i> 24</button>
+                                <button class="text-gray-400 hover:text-white text-sm flex items-center"><i class="far fa-comment mr-1"></i> 8</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Activity Item -->
+                        <div class="border-b border-gray-700 pb-4 mb-4">
+                            <div class="flex items-center mb-2">
+                                <img src="/api/placeholder/40/40" alt="Admin avatar" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium">ElitePromoter <span class="text-gray-500 text-sm font-normal">Promoter</span> <span class="text-gray-500 text-sm">announced an event</span></p>
+                                    <p class="text-xs text-gray-500">Yesterday</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300">🏆 Weekend Tournament: Registration is now open for our Spring Championship! Over $500 in prizes!</p>
+                            <div class="mt-2 flex space-x-3">
+                                <button class="text-gray-400 hover:text-white text-sm flex items-center"><i class="far fa-thumbs-up mr-1"></i> 56</button>
+                                <button class="text-gray-400 hover:text-white text-sm flex items-center"><i class="far fa-comment mr-1"></i> 12</button>
+                            </div>
+                        </div>
+
+                        <!-- Activity Item -->
+                        <div class="pb-2">
+                            <div class="flex items-center mb-2">
+                                <img src="/api/placeholder/40/40" alt="User avatar" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium">JabMaster <span class="text-gray-500 text-sm font-normal">Trainer</span> <span class="text-gray-500 text-sm">shared a guide</span></p>
+                                    <p class="text-xs text-gray-500">2 days ago</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300">New player guide: Understanding the basics of footwork in FNC and how to use ring positioning...</p>
+                            <div class="mt-2 flex space-x-3">
+                                <button class="text-gray-400 hover:text-white text-sm flex items-center"><i class="far fa-thumbs-up mr-1"></i> 42</button>
+                                <button class="text-gray-400 hover:text-white text-sm flex items-center"><i class="far fa-comment mr-1"></i> 7</button>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full mt-4 bg-gray-800 hover:bg-gray-700 text-gray-300 py-2 rounded-md">View More</button>
+                    </div>
+
+                    <!-- Upcoming Events -->
+                    <div class="bg-custom-card rounded-lg shadow-lg p-4">
+                        <h2 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-calendar-alt text-custom-accent mr-2"></i> Upcoming Events</h2>
+                        
+                        <div class="space-y-4">
+                            <!-- Event Card -->
+                            <div class="bg-gray-800 rounded-lg p-3 flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="bg-custom-accent text-white rounded-md p-2 mr-4 text-center min-w-[60px]">
+                                        <p class="text-sm font-bold">MAR</p>
+                                        <p class="text-lg font-bold">21</p>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium">Spring Championship - Qualifier Round</h3>
+                                        <p class="text-sm text-gray-400">8:00 PM EST • 128 Participants</p>
+                                        <div class="flex space-x-2 mt-1">
+                                            <span class="bg-gray-700 text-xs px-2 py-1 rounded">Fighters</span>
+                                            <span class="bg-gray-700 text-xs px-2 py-1 rounded">Managers</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="bg-custom-accent hover:bg-purple-700 text-white px-3 py-1 rounded-md text-sm">Register</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Event Card -->
+                            <div class="bg-gray-800 rounded-lg p-3 flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="bg-custom-accent text-white rounded-md p-2 mr-4 text-center min-w-[60px]">
+                                        <p class="text-sm font-bold">MAR</p>
+                                        <p class="text-lg font-bold">25</p>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium">Promoter Marketing Workshop</h3>
+                                        <p class="text-sm text-gray-400">7:00 PM EST • 45 min</p>
+                                        <div class="flex space-x-2 mt-1">
+                                            <span class="bg-gray-700 text-xs px-2 py-1 rounded">Promoters</span>
+                                            <span class="bg-gray-700 text-xs px-2 py-1 rounded">Managers</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="bg-custom-accent hover:bg-purple-700 text-white px-3 py-1 rounded-md text-sm">RSVP</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Event Card -->
+                            <div class="bg-gray-800 rounded-lg p-3 flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="bg-custom-accent text-white rounded-md p-2 mr-4 text-center min-w-[60px]">
+                                        <p class="text-sm font-bold">APR</p>
+                                        <p class="text-lg font-bold">02</p>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium">Commentary & Announcing Workshop</h3>
+                                        <p class="text-sm text-gray-400">6:30 PM EST • 60 min</p>
+                                        <div class="flex space-x-2 mt-1">
+                                            <span class="bg-gray-700 text-xs px-2 py-1 rounded">Ring Announcers</span>
+                                            <span class="bg-gray-700 text-xs px-2 py-1 rounded">All Roles</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="bg-custom-accent hover:bg-purple-700 text-white px-3 py-1 rounded-md text-sm">RSVP</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Opportunities Board -->
+                    <div class="bg-custom-card rounded-lg shadow-lg p-4">
+                        <h2 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-bullhorn text-custom-accent mr-2"></i> Opportunities</h2>
+                        
+                        <div class="space-y-4">
+                            <!-- Opportunity Card -->
+                            <div class="bg-gray-800 rounded-lg p-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <span class="bg-blue-900 text-blue-300 text-xs px-2 py-1 rounded">Seeking Fighters</span>
+                                        <h3 class="font-medium mt-2">8 fighters needed for upcoming tournament</h3>
+                                    </div>
+                                    <span class="text-xs text-gray-400">Posted 2h ago</span>
+                                </div>
+                                <p class="text-sm text-gray-400 mt-1">By: <span class="text-custom-accent">TopShelfPromotions</span> • Promoter</p>
+                                <p class="text-sm text-gray-300 mt-2">Looking for middleweight fighters with 10+ fights experience for our Spring Showdown. Competitive pay and exposure guaranteed.</p>
+                                <button class="mt-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded-md text-sm">Contact</button>
+                            </div>
+                            
+                            <!-- Opportunity Card -->
+                            <div class="bg-gray-800 rounded-lg p-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <span class="bg-green-900 text-green-300 text-xs px-2 py-1 rounded">Seeking Trainer</span>
+                                        <h3 class="font-medium mt-2">Head trainer needed for rising prospect</h3>
+                                    </div>
+                                    <span class="text-xs text-gray-400">Posted 5h ago</span>
+                                </div>
+                                <p class="text-sm text-gray-400 mt-1">By: <span class="text-custom-accent">EliteManagement</span> • Manager</p>
+                                <p class="text-sm text-gray-300 mt-2">Experienced trainer needed for promising lightweight with 8-0 record. Long-term arrangement possible.</p>
+                                <button class="mt-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded-md text-sm">Contact</button>
+                            </div>
+                            
+                            <!-- Opportunity Card -->
+                            <div class="bg-gray-800 rounded-lg p-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <span class="bg-purple-900 text-purple-300 text-xs px-2 py-1 rounded">Event Staff</span>
+                                        <h3 class="font-medium mt-2">Ring announcers needed for championship event</h3>
+                                    </div>
+                                    <span class="text-xs text-gray-400">Posted 1d ago</span>
+                                </div>
+                                <p class="text-sm text-gray-400 mt-1">By: <span class="text-custom-accent">GrandSlam</span> • Promoter</p>
+                                <p class="text-sm text-gray-300 mt-2">Seeking experienced ring announcers for our April 15th championship event. Quality audio setup required.</p>
+                                <button class="mt-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded-md text-sm">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-6">
+                    <!-- Profile Card (Role Based) -->
+                    <div class="bg-custom-card rounded-lg shadow-lg p-4">
+                        <h2 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-user-circle text-custom-accent mr-2"></i> Your Profile</h2>
+                        <div class="text-center p-4 border border-dashed border-gray-700 rounded-lg mb-4">
+                            <div class="flex justify-center mb-3">
+                                <img src="/api/placeholder/80/80" alt="Profile avatar" class="w-20 h-20 rounded-full">
+                            </div>
+                            <h3 class="font-bold text-lg">YourUserName</h3>
+                            <div class="bg-gray-800 inline-block px-3 py-1 rounded-full text-sm mt-1">
+                                <i class="fas fa-question-circle mr-1 text-gray-400"></i> Role Not Selected
+                            </div>
+                            <p class="text-sm text-gray-400 mt-2">Profile Completion: 40%</p>
+                            <div class="w-full bg-gray-700 rounded-full h-2 mt-2">
+                                <div class="bg-custom-accent h-2 rounded-full" style="width: 40%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <button class="w-full bg-custom-accent hover:bg-purple-700 text-white py-2 rounded-md">Complete Your Profile</button>
+                            <button class="w-full bg-gray-800 hover:bg-gray-700 text-gray-300 py-2 rounded-md">View Public Profile</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Featured Content -->
+                    <div class="bg-custom-card rounded-lg shadow-lg p-4">
+                        <h2 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-star text-custom-accent mr-2"></i> Featured</h2>
+                        
+                        <div class="rounded-lg overflow-hidden mb-4">
+                            <img src="/api/placeholder/400/225" alt="Featured video thumbnail" class="w-full">
+                            <div class="p-3 bg-gray-800">
+                                <h3 class="font-medium">Pro Boxing Techniques: Counter Punching Mastery</h3>
+                                <p class="text-sm text-gray-400">by ChampCoach • 5.2k views</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-3 mb-4">
+                            <h3 class="font-medium border-b border-gray-700 pb-2 mb-2">Community Spotlight</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center">
+                                    <img src="/api/placeholder/40/40" alt="Featured member" class="w-10 h-10 rounded-full mr-3">
+                                    <div>
+                                        <p class="font-medium">RingMaster <span class="text-xs text-gray-400">• Fighter</span></p>
+                                        <p class="text-xs text-gray-400">Tournament Champion</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <img src="/api/placeholder/40/40" alt="Featured member" class="w-10 h-10 rounded-full mr-3">
+                                    <div>
+                                        <p class="font-medium">ElitePromoter <span class="text-xs text-gray-400">• Promoter</span></p>
+                                        <p class="text-xs text-gray-400">Organized 20+ successful events</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <img src="/api/placeholder/40/40" alt="Featured member" class="w-10 h-10 rounded-full mr-3">
+                                    <div>
+                                        <p class="font-medium">VoiceKing <span class="text-xs text-gray-400">• Announcer</span></p>
+                                        <p class="text-xs text-gray-400">Fan favorite announcer</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-gray-800 hover:bg-gray-700 text-gray-300 py-2 rounded-md">Browse Content</button>
+                    </div>
+                    
+                    <!-- Community Online -->
+                    <div class="bg-custom-card rounded-lg shadow-lg p-4">
+                        <h2 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-user-friends text-custom-accent mr-2"></i> Community Online</h2>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="space-x-1">
+                                <button class="bg-custom-accent text-white text-xs px-2 py-1 rounded">All</button>
+                                <button class="bg-gray-800 hover:bg-gray-700 text-xs px-2 py-1 rounded">Fighters</button>
+                                <button class="bg-gray-800 hover:bg-gray-700 text-xs px-2 py-1 rounded">Promoters</button>
+                                <button class="bg-gray-800 hover:bg-gray-700 text-xs px-2 py-1 rounded">More</button>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="relative">
+                                        <img src="/api/placeholder/40/40" alt="User avatar" class="w-10 h-10 rounded-full mr-3">
+                                        <span class="absolute bottom-0 right-2 h-3 w-3 bg-green-500 rounded-full border-2 border-gray-800"></span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">SpeedyGloves <span class="text-xs text-gray-400">• Fighter</span></p>
+                                        <p class="text-xs text-gray-400">Looking for sparring partner</p>
+                                    </div>
+                                </div>
+                                <button class="text-custom-accent hover:text-purple-400"><i class="fas fa-comment-alt"></i></button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="relative">
+                                        <img src="/api/placeholder/40/40" alt="User avatar" class="w-10 h-10 rounded-full mr-3">
+                                        <span class="absolute bottom-0 right-2 h-3 w-3 bg-green-500 rounded-full border-2 border-gray-800"></span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">TopManager <span class="text-xs text-gray-400">• Manager</span></p>
+                                        <p class="text-xs text-gray-400">Scouting new talent</p>
+                                    </div>
+                                </div>
+                                <button class="text-custom-accent hover:text-purple-400"><i class="fas fa-comment-alt"></i></button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="relative">
+                                        <img src="/api/placeholder/40/40" alt="User avatar" class="w-10 h-10 rounded-full mr-3">
+                                        <span class="absolute bottom-0 right-2 h-3 w-3 bg-green-500 rounded-full border-2 border-gray-800"></span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">RingVoice <span class="text-xs text-gray-400">• Announcer</span></p>
+                                        <p class="text-xs text-gray-400">Available for events</p>
+                                    </div>
+                                </div>
+                                <button class="text-custom-accent hover:text-purple-400"><i class="fas fa-comment-alt"></i></button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="relative">
+                                        <img src="/api/placeholder/40/40" alt="User avatar" class="w-10 h-10 rounded-full mr-3">
+                                        <span class="absolute bottom-0 right-2 h-3 w-3 bg-green-500 rounded-full border-2 border-gray-800"></span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">ProTrainer <span class="text-xs text-gray-400">• Trainer</span></p>
+                                        <p class="text-xs text-gray-400">Offering advice</p>
+                                    </div>
+                                </div>
+                                <button class="text-custom-accent hover:text-purple-400"><i class="fas fa-comment-alt"></i></button>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-custom-accent hover:bg-purple-700 text-white py-2 rounded-md">View All Members</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple JS for demonstration purposes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate notification
+            setTimeout(function() {
+                alert('Welcome to BoxingRival! Please select your role in the boxing community to customize your experience.');
+            }, 3000);
+            
+            // Click handlers for buttons would go here
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Button clicked:', this.textContent.trim());
+                });
+            });
+        });
+    </script>
+</body>
+</html>
