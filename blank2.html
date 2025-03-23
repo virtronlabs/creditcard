@@ -66,11 +66,21 @@
       const sidebar = document.getElementById('sidebar');
       const sidebarContent = document.getElementById('sidebar-content');
       const sidebarIcons = document.getElementById('sidebar-icons');
+      const mainContent = document.querySelector('main');
 
       sidebar.classList.toggle('w-16');
       sidebar.classList.toggle('md:w-64');
       sidebarContent.classList.toggle('hidden');
       sidebarIcons.classList.toggle('hidden');
+      
+      // Toggle main content margin
+      if (sidebar.classList.contains('w-16')) {
+        mainContent.classList.remove('md:ml-64');
+        mainContent.classList.add('md:ml-16');
+      } else {
+        mainContent.classList.remove('md:ml-16');
+        mainContent.classList.add('md:ml-64');
+      }
     }
   }
 
@@ -79,6 +89,7 @@
     const sidebarContent = document.getElementById('sidebar-content');
     const sidebarIcons = document.getElementById('sidebar-icons');
     const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const mainContent = document.querySelector('main');
 
     // Hide sidebar completely on (medium) and very small screens
     if (window.innerWidth < 768) {
@@ -86,6 +97,8 @@
       // Ensure overlay is closed
       sidebarOverlay.classList.remove('active');
       document.body.style.overflow = 'auto';
+      // Reset main content margin
+      mainContent.classList.remove('md:ml-64', 'md:ml-16');
     } else {
       sidebar.classList.remove('hidden');
       
@@ -95,11 +108,17 @@
         sidebar.classList.remove('md:w-64');
         sidebarContent.classList.add('hidden');
         sidebarIcons.classList.remove('hidden');
+        // Adjust main content margin
+        mainContent.classList.remove('md:ml-64');
+        mainContent.classList.add('md:ml-16');
       } else {
         sidebar.classList.remove('w-16');
         sidebar.classList.add('md:w-64');
         sidebarContent.classList.remove('hidden');
         sidebarIcons.classList.add('hidden');
+        // Adjust main content margin
+        mainContent.classList.remove('md:ml-16');
+        mainContent.classList.add('md:ml-64');
       }
     }
   }
@@ -247,8 +266,8 @@
 
   <!-- Main Content Wrapper -->
   <div class="flex-1 flex pt-[60px]">
-    <!-- Sidebar -->
-    <aside id="sidebar" class="hidden md:block w-full md:w-64 bg-gray-800 shadow-md overflow-y-auto transition-all duration-300">
+    <!-- Sidebar - Now fixed positioned -->
+    <aside id="sidebar" class="hidden md:block fixed top-[60px] left-0 h-[calc(100vh-60px)] w-full md:w-64 bg-gray-800 shadow-md overflow-y-auto transition-all duration-300 z-40">
       <div class="p-4">
         <div id="sidebar-content">
           <nav class="space-y-2">
@@ -337,9 +356,11 @@
         </div>
       </div>
     </aside>
-    <main class="flex-1 overflow-y-auto bg-gray-900">
+    
+    <!-- Main content with margin to account for sidebar -->
+    <main class="flex-1 overflow-y-auto bg-gray-900 md:ml-64 transition-all duration-300">
       <div class="p-4">
-
+  
         <!-- Quick Nav -->
         <div class="overflow-x-auto mb-4 bg-gray-800 py-2 px-1 rounded-lg">
           <div class="flex space-x-2 min-w-max">
