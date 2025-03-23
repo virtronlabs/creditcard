@@ -127,11 +127,9 @@
   window.addEventListener('load', autoMinimizeSidebar);
 </script>
 <body class="bg-gray-900 h-screen flex flex-col">
-  <!-- Navigation -->
   <header class="bg-gray-800 shadow-sm fixed top-0 left-0 right-0 z-50">
     <div class="w-full px-4 py-3">
       <div class="flex items-center justify-between">
-        <!-- Left Section: Hamburger + Logo -->
         <div class="flex items-center">
           <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300 mr-3" onclick="toggleSidebar()">
             <i class="fas fa-bars text-gray-300"></i>
@@ -139,7 +137,6 @@
           <img src="logo.png" alt="Virtron Logo" class="h-7">
         </div>
 
-        <!-- Middle Section: Search (Centered properly) -->
         <div class="hidden sm:flex flex-grow max-w-xl justify-center mx-4">
           <div class="relative w-full">
             <input type="text" placeholder="Search topics" class="w-full px-4 py-2 rounded-full border border-gray-700 bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
@@ -149,94 +146,153 @@
           </div>
         </div>
 
-        <!-- Mobile Search (Only on small screens) -->
         <div class="sm:hidden">
           <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
             <i class="fas fa-search text-gray-300"></i>
           </button>
         </div>
 
-        <!-- Right Section: User Controls -->
         <div class="flex items-center space-x-3 md:space-x-4">
-          <!-- Create button -->
           <button class="flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors">
-            <!-- On mobile: just the plus icon in a circular button -->
             <div class="md:hidden w-8 h-8 flex items-center justify-center">
               <i class="fas fa-plus text-gray-300"></i>
             </div>
-            <!-- On desktop: plus icon with text in a pill button -->
             <div class="hidden md:flex items-center px-3 py-1.5">
               <i class="fas fa-plus text-sm mr-2 text-gray-300"></i>
               <span class="text-sm font-medium text-gray-300">Create</span>
             </div>
           </button>
           
-          <!-- Bell -->
           <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
             <i class="fas fa-bell text-gray-300"></i>
           </button>
           
-          <!-- User avatar -->
           <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
             <i class="fas fa-user"></i>
           </div>
         </div>
       </div>
-    </div>
-  </header>
-
-  <!-- Overlay Sidebar (for screens under 1287px) - Modified to maintain consistent styling -->
-  <div id="sidebar-overlay" class="sidebar-overlay bg-gray-900 bg-opacity-80">
-    <div class="sidebar-overlay-content bg-gray-800 h-full shadow-lg">
-      <!-- Header with hamburger menu + logo instead of X button -->
-      <div class="flex items-center p-4 border-b border-gray-700">
-        <button onclick="toggleSidebar()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none">
-          <i class="fas fa-bars text-gray-300"></i>
-        </button>
-        <img src="logo.png" alt="Virtron Logo" class="h-7 ml-4">
-      </div>
-      
-      <!-- Sidebar Content -->
-      <div class="p-4">
-        <nav class="space-y-2">
-          <a href="/pop.html" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
-            <i class="fas fa-home mr-3"></i>
-            <span>Home</span>
-          </a>
-          <a href="/pop.html" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-            <i class="fas fa-fire mr-3"></i>
-            <span>Dashboard</span>
-          </a>
-          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-            <i class="fas fa-fire mr-3"></i>
-            <span>Getting Started</span>
-          </a>
-          <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-            <i class="fas fa-star mr-3"></i>
-            <span>Code of Conduct</span>
-          </a>
-          <a href="/trending" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-            <i class="fas fa-fire mr-3"></i>
-            <span>Fight Hype</span>
-          </a>
-          <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-            <i class="fas fa-star mr-3"></i>
-            <span>Promoters</span>
-          </a>
+    </header>
+  
+    <div id="sidebar-overlay" class="sidebar-overlay bg-gray-900 bg-opacity-80">
+      <div class="sidebar-overlay-content bg-gray-800 h-full shadow-lg">
+        <div class="flex items-center p-4 border-b border-gray-700">
+          <button onclick="toggleSidebar()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none">
+            <i class="fas fa-bars text-gray-300"></i>
+          </button>
+          <img src="logo.png" alt="Virtron Logo" class="h-7 ml-4">
+        </div>
+        
+        <div class="p-4">
+          <nav class="space-y-2">
+            <a href="/" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
+              <i class="fas fa-home mr-3"></i>
+              <span>Home</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-fire mr-3"></i>
+              <span>Dashboard</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-fire mr-3"></i>
+              <span>Getting Started</span>
+            </a>
+            <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-star mr-3"></i>
+              <span>Code of Conduct</span>
+            </a>
+            <a href="/trending" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-fire mr-3"></i>
+              <span>Fight Hype</span>
+            </a>
+            <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-star mr-3"></i>
+              <span>Promoters</span>
+            </a>
+            <hr class="my-3 border-gray-700">
+            <a href="/saved" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-bookmark mr-3"></i>
+              <span>Saved</span>
+            </a>
+            <a href="/history" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-history mr-3"></i>
+              <span>PPV</span>
+            </a>
+          </nav>
+  
           <hr class="my-3 border-gray-700">
-          <a href="/saved" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-            <i class="fas fa-bookmark mr-3"></i>
-            <span>Saved</span>
-          </a>
-          <a href="/history" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-            <i class="fas fa-history mr-3"></i>
-            <span>PPV</span>
-          </a>
-        </nav>
-
-        <hr class="my-3 border-gray-700">
-
-        <h3 class="font-medium px-3 mb-2 text-gray-300">Popular Categories</h3>
+  
+          <h3 class="font-medium px-3 mb-2 text-gray-300">Popular Categories</h3>
+          <nav class="space-y-1">
+            <a href="/category/technology" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-laptop mr-3"></i>
+              <span>Technology</span>
+            </a>
+            <a href="/category/gaming" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-gamepad mr-3"></i>
+              <span>Gaming</span>
+            </a>
+            <a href="/category/art-design" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-paint-brush mr-3"></i>
+              <span>Forum</span>
+            </a>
+            <a href="/category/sports" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-futbol mr-3"></i>
+              <span>EAC</span>
+            </a>
+            <a href="/category/music" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-music mr-3"></i>
+              <span>FytRec</span>
+            </a>
+          </nav>
+          <div style="height: 500px"></div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="flex-1 flex pt-[60px]">
+      <aside id="sidebar" class="hidden md:block fixed top-[60px] left-0 h-[calc(100vh-60px)] w-full md:w-64 bg-gray-800 shadow-md overflow-y-auto transition-all duration-300 z-40">
+        <div class="p-4">
+          <div id="sidebar-content">
+            <nav class="space-y-2">
+              <a href="/" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
+                <i class="fas fa-home mr-3"></i>
+                <span>Home</span>
+              </a>
+              <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                <i class="fas fa-fire mr-3"></i>
+                <span>Dashboard</span>
+              </a>
+              <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                <i class="fas fa-fire mr-3"></i>
+                <span>Getting Started</span>
+              </a>
+              <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                <i class="fas fa-star mr-3"></i>
+                <span>Code of Conduct</span>
+              </a>
+              <a href="/trending" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                <i class="fas fa-fire mr-3"></i>
+                <span>Fight Hype</span>
+              </a>
+              <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                <i class="fas fa-star mr-3"></i>
+                <span>Promoters</span>
+              </a>
+              <hr class="my-3 border-gray-700">
+              <a href="/saved" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                <i class="fas fa-bookmark mr-3"></i>
+                <span>Saved</span>
+              </a>
+              <a href="/history" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+                <i class="fas fa-history mr-3"></i>
+                <span>PPV</span>
+              </a>
+            </nav>
+  
+            <hr class="my-3 border-gray-700">
+  
+            <h3 class="font-medium px-3 mb-2 text-gray-300">Popular Categories</h3>
         <nav class="space-y-1">
           <a href="/category/technology" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
             <i class="fas fa-laptop mr-3"></i>
@@ -271,11 +327,11 @@
       <div class="p-4">
         <div id="sidebar-content">
           <nav class="space-y-2">
-            <a href="/pop.html" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
+            <a href="/" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
               <i class="fas fa-home mr-3"></i>
               <span>Home</span>
             </a>
-            <a href="/layout.html" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
               <i class="fas fa-fire mr-3"></i>
               <span>Dashboard</span>
             </a>
@@ -283,11 +339,11 @@
               <i class="fas fa-fire mr-3"></i>
               <span>Getting Started</span>
             </a>
-            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
               <i class="fas fa-star mr-3"></i>
               <span>Code of Conduct</span>
             </a>
-            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <a href="/trending" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
               <i class="fas fa-fire mr-3"></i>
               <span>Fight Hype</span>
             </a>
@@ -359,44 +415,10 @@
     
     <!-- Main content with margin to account for sidebar -->
     <main class="flex-1 overflow-y-auto bg-gray-900 md:ml-64 transition-all duration-300">
+      <div class="p4">
+
+      </div>
       <div class="p-4">
-  
-        <!-- Quick Nav -->
-        <div class="overflow-x-auto mb-4 bg-gray-800 py-2 px-1 rounded-lg">
-          <div class="flex space-x-2 min-w-max">
-            <!-- Category buttons -->
-            <button class="px-4 py-2 bg-gray-700 text-gray-200 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors">
-              All
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Latest
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Boxing News
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Fight Analysis
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Upcoming Events
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Fighter Spotlights
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Rankings
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              PPV Discussion
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Training
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Equipment
-            </button>
-          </div>
-        </div>
 
         <!-- Test Section -->
         <!-- <div class="mb-6">

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card Flip</title>
+    <link href="https://fonts.googleapis.com/css2?family=OCR+A&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Input and Button -->
+    <div class="form-container">
+        <form id="card-form" onsubmit="event.preventDefault(); generateCard();">
+            <input type="text" id="cardholder-name" placeholder="Enter Cardholder Name" maxlength="21" required>
+            <button type="submit">Generate Card</button>
+        </form>
+    </div>
+    <!-- Card Container -->
+    <div class="card-container" onclick="flipCard()">
+        <!-- Front Side -->
+        <div class="credit-card front">
+            <img src="logo.png" alt="Logo" class="logo">
+            <img src="chip4.png" alt="Chip" class="chip">
+            <img src="tap.png" alt="Tap Icon" class="tap-icon">
+            <div class="card-number">1234 5678 9012 3456</div>
+            <div class="card-holder">
+                Damon J Keith
+            </div>
+            <div class="expiration">
+                <div class="tiny">Expires</div>
+                07/28
+            </div>
+            <img src="viva2.png" alt="Bird" class="bird">
+        </div>
+
+        <!-- Back Side -->
+        <div class="credit-card back">
+            <div class="magnetic-strip"></div>
+            <div class="signature-box">Authorized Signature</div>
+            <div class="cvv">123</div>
+            <div class="fine-print">
+                This card is the property of the issuing vault. Use constitutes acceptance of the terms and conditions.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

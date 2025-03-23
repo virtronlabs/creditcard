@@ -66,11 +66,21 @@
       const sidebar = document.getElementById('sidebar');
       const sidebarContent = document.getElementById('sidebar-content');
       const sidebarIcons = document.getElementById('sidebar-icons');
+      const mainContent = document.querySelector('main');
 
       sidebar.classList.toggle('w-16');
       sidebar.classList.toggle('md:w-64');
       sidebarContent.classList.toggle('hidden');
       sidebarIcons.classList.toggle('hidden');
+      
+      // Toggle main content margin
+      if (sidebar.classList.contains('w-16')) {
+        mainContent.classList.remove('md:ml-64');
+        mainContent.classList.add('md:ml-16');
+      } else {
+        mainContent.classList.remove('md:ml-16');
+        mainContent.classList.add('md:ml-64');
+      }
     }
   }
 
@@ -79,6 +89,7 @@
     const sidebarContent = document.getElementById('sidebar-content');
     const sidebarIcons = document.getElementById('sidebar-icons');
     const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const mainContent = document.querySelector('main');
 
     // Hide sidebar completely on (medium) and very small screens
     if (window.innerWidth < 768) {
@@ -86,6 +97,8 @@
       // Ensure overlay is closed
       sidebarOverlay.classList.remove('active');
       document.body.style.overflow = 'auto';
+      // Reset main content margin
+      mainContent.classList.remove('md:ml-64', 'md:ml-16');
     } else {
       sidebar.classList.remove('hidden');
       
@@ -95,11 +108,17 @@
         sidebar.classList.remove('md:w-64');
         sidebarContent.classList.add('hidden');
         sidebarIcons.classList.remove('hidden');
+        // Adjust main content margin
+        mainContent.classList.remove('md:ml-64');
+        mainContent.classList.add('md:ml-16');
       } else {
         sidebar.classList.remove('w-16');
         sidebar.classList.add('md:w-64');
         sidebarContent.classList.remove('hidden');
         sidebarIcons.classList.add('hidden');
+        // Adjust main content margin
+        mainContent.classList.remove('md:ml-16');
+        mainContent.classList.add('md:ml-64');
       }
     }
   }
@@ -109,56 +128,58 @@
 </script>
 <body class="bg-gray-900 h-screen flex flex-col">
   <!-- Navigation -->
-  <header class="bg-gray-800 shadow-sm sticky top-0 z-10">
-    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-      <!-- Left Section: Hamburger + Logo -->
-      <div class="flex items-center">
-        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300 mr-3" onclick="toggleSidebar()">
-          <i class="fas fa-bars text-gray-300"></i>
-        </button>
-        <img src="logo.png" alt="Virtron Logo" class="h-7">
-      </div>
+  <header class="bg-gray-800 shadow-sm fixed top-0 left-0 right-0 z-50">
+    <div class="w-full px-4 py-3">
+      <div class="flex items-center justify-between">
+        <!-- Left Section: Hamburger + Logo -->
+        <div class="flex items-center">
+          <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300 mr-3" onclick="toggleSidebar()">
+            <i class="fas fa-bars text-gray-300"></i>
+          </button>
+          <img src="logo.png" alt="Virtron Logo" class="h-7">
+        </div>
 
-      <!-- Middle Section: Search (Centered properly) -->
-      <div class="hidden md:flex flex-grow max-w-xl justify-center mx-4">
-        <div class="relative w-full">
-          <input type="text" placeholder="Search topics" class="w-full px-4 py-2 rounded-full border border-gray-700 bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
-          <button class="absolute right-3 top-2">
-            <i class="fas fa-search text-gray-400"></i>
+        <!-- Middle Section: Search (Centered properly) -->
+        <div class="hidden sm:flex flex-grow max-w-xl justify-center mx-4">
+          <div class="relative w-full">
+            <input type="text" placeholder="Search topics" class="w-full px-4 py-2 rounded-full border border-gray-700 bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            <button class="absolute right-3 top-2">
+              <i class="fas fa-search text-gray-400"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Search (Only on small screens) -->
+        <div class="sm:hidden">
+          <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            <i class="fas fa-search text-gray-300"></i>
           </button>
         </div>
-      </div>
 
-      <!-- Mobile Search (Only on small screens) -->
-      <div class="md:hidden">
-        <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
-          <i class="fas fa-search text-gray-300"></i>
-        </button>
-      </div>
-
-      <!-- Right Section: User Controls -->
-      <div class="flex items-center space-x-3 md:space-x-4">
-        <!-- Create button -->
-        <button class="flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors">
-          <!-- On mobile: just the plus icon in a circular button -->
-          <div class="md:hidden w-8 h-8 flex items-center justify-center">
-            <i class="fas fa-plus text-gray-300"></i>
+        <!-- Right Section: User Controls -->
+        <div class="flex items-center space-x-3 md:space-x-4">
+          <!-- Create button -->
+          <button class="flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors">
+            <!-- On mobile: just the plus icon in a circular button -->
+            <div class="md:hidden w-8 h-8 flex items-center justify-center">
+              <i class="fas fa-plus text-gray-300"></i>
+            </div>
+            <!-- On desktop: plus icon with text in a pill button -->
+            <div class="hidden md:flex items-center px-3 py-1.5">
+              <i class="fas fa-plus text-sm mr-2 text-gray-300"></i>
+              <span class="text-sm font-medium text-gray-300">Create</span>
+            </div>
+          </button>
+          
+          <!-- Bell -->
+          <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            <i class="fas fa-bell text-gray-300"></i>
+          </button>
+          
+          <!-- User avatar -->
+          <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+            <i class="fas fa-user"></i>
           </div>
-          <!-- On desktop: plus icon with text in a pill button -->
-          <div class="hidden md:flex items-center px-3 py-1.5">
-            <i class="fas fa-plus text-sm mr-2 text-gray-300"></i>
-            <span class="text-sm font-medium text-gray-300">Create</span>
-          </div>
-        </button>
-        
-        <!-- Bell -->
-        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
-          <i class="fas fa-bell text-gray-300"></i>
-        </button>
-        
-        <!-- User avatar -->
-        <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
-          <i class="fas fa-user"></i>
         </div>
       </div>
     </div>
@@ -178,11 +199,11 @@
       <!-- Sidebar Content -->
       <div class="p-4">
         <nav class="space-y-2">
-          <a href="/" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
+          <a href="/pop.html" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
             <i class="fas fa-home mr-3"></i>
             <span>Home</span>
           </a>
-          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+          <a href="/pop.html" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
             <i class="fas fa-fire mr-3"></i>
             <span>Dashboard</span>
           </a>
@@ -190,24 +211,24 @@
             <i class="fas fa-fire mr-3"></i>
             <span>Getting Started</span>
           </a>
-          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+          <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
             <i class="fas fa-star mr-3"></i>
             <span>Code of Conduct</span>
           </a>
-          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+          <a href="/trending" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
             <i class="fas fa-fire mr-3"></i>
             <span>Fight Hype</span>
           </a>
-          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+          <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
             <i class="fas fa-star mr-3"></i>
-            <span>Events</span>
+            <span>Promoters</span>
           </a>
           <hr class="my-3 border-gray-700">
-          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+          <a href="/saved" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
             <i class="fas fa-bookmark mr-3"></i>
             <span>Saved</span>
           </a>
-          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+          <a href="/history" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
             <i class="fas fa-history mr-3"></i>
             <span>PPV</span>
           </a>
@@ -243,17 +264,18 @@
     </div>
   </div>
 
-  <div class="flex flex-1 overflow-hidden">
-    <!-- Sidebar -->
-    <aside id="sidebar" class="hidden md:block w-full md:w-64 bg-gray-800 shadow-md overflow-y-auto transition-all duration-300">
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 flex pt-[60px]">
+    <!-- Sidebar - Now fixed positioned -->
+    <aside id="sidebar" class="hidden md:block fixed top-[60px] left-0 h-[calc(100vh-60px)] w-full md:w-64 bg-gray-800 shadow-md overflow-y-auto transition-all duration-300 z-40">
       <div class="p-4">
         <div id="sidebar-content">
           <nav class="space-y-2">
-            <a href="/" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
+            <a href="/pop.html" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
               <i class="fas fa-home mr-3"></i>
               <span>Home</span>
             </a>
-            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <a href="/layout.html" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
               <i class="fas fa-fire mr-3"></i>
               <span>Dashboard</span>
             </a>
@@ -261,17 +283,17 @@
               <i class="fas fa-fire mr-3"></i>
               <span>Getting Started</span>
             </a>
-            <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
               <i class="fas fa-star mr-3"></i>
               <span>Code of Conduct</span>
             </a>
-            <a href="/trending" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
               <i class="fas fa-fire mr-3"></i>
               <span>Fight Hype</span>
             </a>
             <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
               <i class="fas fa-star mr-3"></i>
-              <span>Events</span>
+              <span>Promoters</span>
             </a>
             <hr class="my-3 border-gray-700">
             <a href="/saved" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
@@ -512,6 +534,7 @@
         </div>
       </div>
     </main>
+
   </div>
 </body>
 </html>
