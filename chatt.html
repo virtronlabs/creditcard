@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ollama AI Assistant</title>
+    <link rel="icon" href="data:;base64,=">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+</head>
+<body class="bg-gray-100 flex h-screen">
+    <div class="w-full max-w-4xl mx-auto flex flex-col h-screen">
+        <!-- Header -->
+        <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Ollama AI Assistant</h1>
+            <div>
+                <button id="canvasToggle" class="bg-white text-blue-600 px-3 py-1 rounded mr-2">Canvas</button>
+                <button id="clearChat" class="bg-white text-blue-600 px-3 py-1 rounded">Clear Chat</button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="flex flex-grow overflow-hidden">
+            <!-- Chat Container -->
+            <div id="chatContainer" class="w-full lg:w-2/3 bg-white p-4 overflow-y-auto flex flex-col">
+                <div id="chatMessages" class="flex-grow overflow-y-auto space-y-4 mb-4"></div>
+                
+                <!-- Input Area -->
+                <div class="mt-auto">
+                    <div class="flex items-center">
+                        <textarea 
+                            id="userInput" 
+                            class="w-full p-2 border rounded-l-lg resize-none" 
+                            rows="3" 
+                            placeholder="Type your message..."
+                        ></textarea>
+                        <button 
+                            id="sendMessage" 
+                            class="bg-blue-600 text-white px-4 py-3 rounded-r-lg hover:bg-blue-700"
+                        >
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canvas Container -->
+            <div 
+                id="canvasContainer" 
+                class="hidden lg:block w-1/3 bg-gray-100 p-4 overflow-y-auto"
+            >
+                <div class="mb-4">
+                    <h2 class="text-xl font-semibold mb-2">Canvas Tools</h2>
+                    <div class="flex space-x-2 mb-2">
+                        <input 
+                            type="color" 
+                            id="colorPicker" 
+                            class="w-12 h-10"
+                        >
+                        <select 
+                            id="brushSize" 
+                            class="flex-grow border rounded p-2"
+                        >
+                            <option value="2">Small</option>
+                            <option value="5" selected>Medium</option>
+                            <option value="10">Large</option>
+                        </select>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button 
+                            id="clearCanvas" 
+                            class="bg-red-500 text-white px-3 py-1 rounded"
+                        >
+                            Clear
+                        </button>
+                        <button 
+                            id="saveCanvas" 
+                            class="bg-green-500 text-white px-3 py-1 rounded"
+                        >
+                            Save
+                        </button>
+                    </div>
+                </div>
+                <canvas 
+                    id="drawingCanvas" 
+                    class="bg-white border rounded-lg w-full" 
+                    width="300" 
+                    height="300"
+                ></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ollama API Communication
+        async function chatWithGemma(message) {
+            try {
+                const response = await fetch("http://127.0.0.1:11434/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        model: "gemma3:1b", // Ensure this is the correct model name
+                        messages: [{ role: "user", content: message }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let result = '';
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value);
+                    const lines = chunk.split('\n');
+                    
+                    for (const line of lines) {
+                        if (line.trim()) {
+                            try {
+                                const parsedChunk = JSON.parse(line);
+                                if (parsedChunk.message && parsedChunk.message.content) {
+                                    result += parsedChunk.message.content;
+                                }
+                            } catch (parseError) {
+                                console.error('Error parsing chunk:', parseError);
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            } catch (error) {
+                console.error('Error in chatWithGemma:', error);
+                return `Error: ${error.message}`;
+            }
+        }
+
+        // Chat Functionality
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendMessage = document.getElementById('sendMessage');
+        const clearChatBtn = document.getElementById('clearChat');
+
+        // Canvas Functionality
+        const canvasContainer = document.getElementById('canvasContainer');
+        const canvasToggle = document.getElementById('canvasToggle');
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        const colorPicker = document.getElementById('colorPicker');
+        const brushSize = document.getElementById('brushSize');
+        const clearCanvasBtn = document.getElementById('clearCanvas');
+        const saveCanvasBtn = document.getElementById('saveCanvas');
+
+        // Drawing Variables
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        // Chat Message Creation
+        function createChatMessage(content, sender) {
+            const messageDiv = document.createElement('div');
+            
+            // Replace space-separated classes with an array
+            const baseClasses = ['p-3', 'rounded-lg'];
+            const senderClasses = sender === 'user' 
+                ? ['bg-blue-100', 'self-end'] 
+                : ['bg-gray-100', 'self-start'];
+            
+            messageDiv.classList.add(...baseClasses, ...senderClasses);
+
+            // Check if message contains code
+            if (content.includes('```')) {
+                const codeBlocks = content.split('```');
+                const processedContent = codeBlocks.map((block, index) => {
+                    if (index % 2 === 1) {  // Odd indices are code blocks
+                        return `<pre><code class="language-${block.split('\n')[0].trim()}">${block.split('\n').slice(1).join('\n').trim()}</code></pre>`;
+                    }
+                    return block;
+                }).join('');
+
+                messageDiv.innerHTML = processedContent;
+                
+                // Highlight code blocks
+                messageDiv.querySelectorAll('pre code').forEach(hljs.highlightElement);
+            } else {
+                messageDiv.textContent = content;
+            }
+
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Send Message Handler
+        sendMessage.addEventListener('click', async () => {
+            const message = userInput.value.trim();
+            if (message) {
+                // Create user message
+                createChatMessage(message, 'user');
+                
+                // Clear input
+                userInput.value = '';
+
+                // Disable send button during API call
+                sendMessage.disabled = true;
+                sendMessage.textContent = 'Sending...';
+
+                try {
+                    // Get AI response
+                    const aiResponse = await chatWithGemma(message);
+                    
+                    // Create AI message
+                    createChatMessage(aiResponse, 'ai');
+                } catch (error) {
+                    createChatMessage(`Error: ${error.message}`, 'ai');
+                } finally {
+                    // Re-enable send button
+                    sendMessage.disabled = false;
+                    sendMessage.textContent = 'Send';
+                }
+            }
+        });
+
+        // Allow sending message with Enter key
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage.click();
+            }
+        });
+
+        // Clear Chat
+        clearChatBtn.addEventListener('click', () => {
+            chatMessages.innerHTML = '';
+        });
+
+        // Canvas Toggle
+        canvasToggle.addEventListener('click', () => {
+            canvasContainer.classList.toggle('hidden');
+        });
+
+        // Drawing Event Listeners
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.strokeStyle = colorPicker.value;
+            ctx.lineWidth = brushSize.value;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        // Clear Canvas
+        clearCanvasBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        // Save Canvas
+        saveCanvasBtn.addEventListener('click', () => {
+            const dataURL = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = 'canvas_drawing.png';
+            link.href = dataURL;
+            link.click();
+        });
+    </script>
+</body>
+</html>

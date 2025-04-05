@@ -24,222 +24,523 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #4b5563; /* Thumb color on hover (gray-600) */
     }
+
+    /* Sidebar Styles - Modified to maintain consistent header */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      z-index: 50; /* Higher z-index to ensure it's above the regular sidebar */
+      overflow-x: hidden;
+      transition: 0.3s;
+      visibility: hidden; /* Hide by default */
+    }
+
+    .sidebar-overlay.active {
+      width: 100%;
+      visibility: visible; /* Show when active */
+    }
+
+    .sidebar-overlay-content {
+      width: 250px;
+      height: 100%;
+      overflow-y: auto;
+    }
   </style>
 </head>
 <script>
   function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const sidebarContent = document.getElementById('sidebar-content');
-    const sidebarIcons = document.getElementById('sidebar-icons');
+    if (window.innerWidth < 1287) {
+      // Use overlay sidebar for smaller screens
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+      const sidebar = document.getElementById('sidebar');
 
-    sidebar.classList.toggle('w-16');
-    sidebar.classList.toggle('md:w-64');
-    sidebarContent.classList.toggle('hidden');
-    sidebarIcons.classList.toggle('hidden');
+      sidebarOverlay.classList.toggle('active');
+
+      // Toggle body scroll and sidebar visibility
+      if (sidebarOverlay.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+        // Completely hide the regular sidebar when overlay is active
+        sidebar.classList.add('hidden');
+        sidebar.classList.remove('md:block');
+      } else {
+        document.body.style.overflow = 'auto';
+        // Show the regular sidebar (collapsed) when overlay is closed
+        if (window.innerWidth >= 768) {
+          sidebar.classList.remove('hidden');
+          sidebar.classList.add('md:block');
+        }
+      }
+    } else {
+      // Use original toggle behavior for larger screens
+      const sidebar = document.getElementById('sidebar');
+      const sidebarContent = document.getElementById('sidebar-content');
+      const sidebarIcons = document.getElementById('sidebar-icons');
+      const mainContent = document.querySelector('main');
+
+      sidebar.classList.toggle('w-16');
+      sidebar.classList.toggle('md:w-64');
+      sidebarContent.classList.toggle('hidden');
+      sidebarIcons.classList.toggle('hidden');
+
+      // Get category pills
+      const categoryPills = document.querySelector('.category-pills');
+
+      // Toggle main content margin and category pills position
+      if (sidebar.classList.contains('w-16')) {
+        mainContent.classList.remove('md:ml-64');
+        mainContent.classList.add('md:ml-16');
+
+        // Adjust category pills
+        if (categoryPills) {
+          categoryPills.classList.remove('md:left-64');
+          categoryPills.classList.add('md:left-16');
+        }
+
+        // Change section 1 grid to 4 columns when sidebar is collapsed
+        const section1Grid = document.getElementById('section-1-grid');
+        if (section1Grid) {
+          section1Grid.classList.remove('lg:grid-cols-3');
+          section1Grid.classList.add('lg:grid-cols-4');
+        }
+      } else {
+        mainContent.classList.remove('md:ml-16');
+        mainContent.classList.add('md:ml-64');
+
+        // Adjust category pills
+        if (categoryPills) {
+          categoryPills.classList.remove('md:left-16');
+          categoryPills.classList.add('md:left-64');
+        }
+
+        // Change section 1 grid back to 3 columns when sidebar is expanded
+        const section1Grid = document.getElementById('section-1-grid');
+        if (section1Grid) {
+          section1Grid.classList.remove('lg:grid-cols-4');
+          section1Grid.classList.add('lg:grid-cols-3');
+        }
+      }
+    }
   }
 
   function autoMinimizeSidebar() {
-  const sidebar = document.getElementById('sidebar');
-  const sidebarContent = document.getElementById('sidebar-content');
-  const sidebarIcons = document.getElementById('sidebar-icons');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarContent = document.getElementById('sidebar-content');
+    const sidebarIcons = document.getElementById('sidebar-icons');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const mainContent = document.querySelector('main');
 
-  // Hide sidebar completely on (medium) and very small screens
-  if (window.innerWidth < 768) {
-    sidebar.classList.add('hidden');
-  } else {
-    sidebar.classList.remove('hidden');
-    
-    // Minimize sidebar on medium screens
-    if (window.innerWidth < 1287) {
-      sidebar.classList.add('w-16');
-      sidebar.classList.remove('md:w-64');
-      sidebarContent.classList.add('hidden');
-      sidebarIcons.classList.remove('hidden');
+    // Get category pills
+    const categoryPills = document.querySelector('.category-pills');
+
+    // Check if overlay is active
+    const isOverlayActive = sidebarOverlay.classList.contains('active');
+
+    // Hide sidebar completely on very small screens
+    if (window.innerWidth < 768) {
+      sidebar.classList.add('hidden');
+      sidebar.classList.remove('md:block');
+      // Reset main content margin
+      mainContent.classList.remove('md:ml-64', 'md:ml-16');
+
+      // Reset category pills position
+      if (categoryPills) {
+        categoryPills.classList.remove('md:left-64', 'md:left-16');
+      }
     } else {
-      sidebar.classList.remove('w-16');
-      sidebar.classList.add('md:w-64');
-      sidebarContent.classList.remove('hidden');
-      sidebarIcons.classList.add('hidden');
+      // For medium and larger screens
+      if (isOverlayActive) {
+        // If overlay is active, hide the regular sidebar completely
+        sidebar.classList.add('hidden');
+        sidebar.classList.remove('md:block');
+      } else {
+        // If overlay is not active, show the regular sidebar
+        sidebar.classList.remove('hidden');
+        sidebar.classList.add('md:block');
+
+        // Minimize sidebar on medium screens
+        if (window.innerWidth < 1287) {
+          sidebar.classList.add('w-16');
+          sidebar.classList.remove('md:w-64');
+          sidebarContent.classList.add('hidden');
+          sidebarIcons.classList.remove('hidden');
+
+          // Adjust main content margin
+          mainContent.classList.remove('md:ml-64');
+          mainContent.classList.add('md:ml-16');
+
+          // Adjust category pills
+          if (categoryPills) {
+            categoryPills.classList.remove('md:left-64');
+            categoryPills.classList.add('md:left-16');
+          }
+
+          // Change section 1 grid to 4 columns when sidebar is collapsed
+          const section1Grid = document.getElementById('section-1-grid');
+          if (section1Grid) {
+            section1Grid.classList.remove('lg:grid-cols-3');
+            section1Grid.classList.add('lg:grid-cols-4');
+          }
+        } else {
+          sidebar.classList.remove('w-16');
+          sidebar.classList.add('md:w-64');
+          sidebarContent.classList.remove('hidden');
+          sidebarIcons.classList.add('hidden');
+
+          // Adjust main content margin
+          mainContent.classList.remove('md:ml-16');
+          mainContent.classList.add('md:ml-64');
+
+          // Adjust category pills
+          if (categoryPills) {
+            categoryPills.classList.remove('md:left-16');
+            categoryPills.classList.add('md:left-64');
+          }
+
+          // Change section 1 grid back to 3 columns when sidebar is expanded
+          const section1Grid = document.getElementById('section-1-grid');
+          if (section1Grid) {
+            section1Grid.classList.remove('lg:grid-cols-4');
+            section1Grid.classList.add('lg:grid-cols-3');
+          }
+        }
+      }
     }
   }
-}
 
+  // Initialize sidebar state on page load and resize
   window.addEventListener('resize', autoMinimizeSidebar);
-  window.addEventListener('load', autoMinimizeSidebar);
+  window.addEventListener('load', function() {
+    // Ensure overlay is closed on page load
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = 'auto';
+
+    // Initialize sidebar state
+    autoMinimizeSidebar();
+  });
 </script>
 <body class="bg-gray-900 h-screen flex flex-col">
   <!-- Navigation -->
-  <header class="bg-gray-800 shadow-sm sticky top-0 z-10">
-    <div class="container px-4 py-3 flex items-center justify-between">
-      <!-- Left Section: Hamburger + Logo (Fixed Width) -->
-      <div class="flex items-center space-x-4 w-[200px]">
-        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300" onclick="toggleSidebar()">
+  <header class="bg-gray-800 shadow-sm fixed top-0 left-0 right-0 z-50">
+    <div class="w-full px-4 py-3">
+      <div class="flex items-center justify-between">
+        <!-- Left Section: Hamburger + Logo -->
+        <div class="flex items-center">
+          <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300 mr-3" onclick="toggleSidebar()">
             <i class="fas fa-bars text-gray-300"></i>
-        </button>
-        <!-- Replacing text with logo -->
-        <img src="logo.png" alt="Virtron Logo" class="h-7">
-    </div>
-  
-      <!-- Search Bar (Centered but Doesn't Push Other Elements) -->
-<!-- Search Bar Section -->
-<div class="flex items-center flex-grow max-w-xl justify-center">
-  <!-- Search Bar (Visible on Small and Larger Screens) -->
-  <div class="hidden sm:flex relative w-full">
-    <input type="text" placeholder="Search topics" class="w-full px-4 py-2 rounded-full border border-gray-700 bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
-    <button class="absolute right-3 top-2">
-      <i class="fas fa-search text-gray-400"></i>
-    </button>
-  </div>
+          </button>
+          <img src="logo.png" alt="Virtron Logo" class="h-7">
+        </div>
 
-  <!-- Search Icon (Only Visible on Small Screens) -->
-  <button class="sm:hidden w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
-    <i class="fas fa-search"></i>
-  </button>
-</div>
+        <!-- Middle Section: Search (Centered properly) -->
+        <div class="hidden sm:flex flex-grow max-w-xl justify-center mx-4">
+          <div class="relative w-full">
+            <input type="text" placeholder="Search topics" class="w-full px-4 py-2 rounded-full border border-gray-700 bg-gray-700 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            <button class="absolute right-3 top-2">
+              <i class="fas fa-search text-gray-400"></i>
+            </button>
+          </div>
+        </div>
 
-  
-      <!-- Right Section: User Controls (Fixed Width) -->
-      <div class="flex items-center space-x-4 w-[200px] justify-end">
-        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
-          <i class="fas fa-plus text-gray-300"></i>
-        </button>
-        <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
-          <i class="fas fa-bell text-gray-300"></i>
-        </button>
-        <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
-          <i class="fas fa-user"></i>
+        <!-- Mobile Search (Only on small screens) -->
+        <div class="sm:hidden">
+          <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            <i class="fas fa-search text-gray-300"></i>
+          </button>
+        </div>
+
+        <!-- Right Section: User Controls -->
+        <div class="flex items-center space-x-3 md:space-x-4">
+          <!-- Create button -->
+          <button class="flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors">
+            <!-- On mobile: just the plus icon in a circular button -->
+            <div class="md:hidden w-8 h-8 flex items-center justify-center">
+              <i class="fas fa-plus text-gray-300"></i>
+            </div>
+            <!-- On desktop: plus icon with text in a pill button -->
+            <div class="hidden md:flex items-center px-3 py-1.5">
+              <i class="fas fa-plus text-sm mr-2 text-gray-300"></i>
+              <span class="text-sm font-medium text-gray-300">Create</span>
+            </div>
+          </button>
+
+          <!-- Bell -->
+          <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            <i class="fas fa-bell text-gray-300"></i>
+          </button>
+
+          <!-- User avatar -->
+          <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+            <i class="fas fa-user"></i>
+          </div>
         </div>
       </div>
     </div>
   </header>
-  
 
-  <div class="flex flex-1 overflow-hidden">
-    <!-- Sidebar -->
-    <aside id="sidebar" class="hidden md:block w-full md:w-64 bg-gray-800 shadow-md overflow-y-auto transition-all duration-300">
+  <!-- Overlay Sidebar (for screens under 1287px) - Modified to maintain consistent styling -->
+  <div id="sidebar-overlay" class="sidebar-overlay bg-gray-900 bg-opacity-80">
+    <div class="sidebar-overlay-content bg-gray-900 h-full shadow-lg">
+      <!-- Header with hamburger menu + logo instead of X button -->
+      <div class="flex items-center p-4 border-b border-gray-700">
+        <button onclick="toggleSidebar()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 focus:outline-none">
+          <i class="fas fa-bars text-gray-300"></i>
+        </button>
+        <img src="logo.png" alt="Virtron Logo" class="h-7 ml-4">
+      </div>
+
+      <!-- Sidebar Content -->
+      <div class="p-4">
+        <nav class="space-y-2">
+          <a href="/home.html" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
+            <i class="fas fa-home mr-3"></i>
+            <span>Home</span>
+          </a>
+          <a href="/dash.html" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <i class="fas fa-fire mr-3"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <i class="fas fa-fire mr-3"></i>
+            <span>Getting Started</span>
+          </a>
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <i class="fas fa-star mr-3"></i>
+            <span>Code of Conduct</span>
+          </a>
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <i class="fas fa-fire mr-3"></i>
+            <span>Fight Hype</span>
+          </a>
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <i class="fas fa-star mr-3"></i>
+            <span>Promoters</span>
+          </a>
+          <hr class="my-3 border-gray-700">
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <i class="fas fa-bookmark mr-3"></i>
+            <span>Saved</span>
+          </a>
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <i class="fas fa-history mr-3"></i>
+            <span>PPV</span>
+          </a>
+        </nav>
+
+        <hr class="my-3 border-gray-700">
+
+        <h3 class="font-medium px-3 mb-2 text-gray-300">Popular Categories</h3>
+        <nav class="space-y-1">
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <i class="fas fa-laptop mr-3"></i>
+            <span>Technology</span>
+          </a>
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <i class="fas fa-gamepad mr-3"></i>
+            <span>Gaming</span>
+          </a>
+          <a href="/#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <i class="fas fa-paint-brush mr-3"></i>
+            <span>Forum</span>
+          </a>
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <i class="fas fa-futbol mr-3"></i>
+            <span>EAC</span>
+          </a>
+          <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+            <i class="fas fa-music mr-3"></i>
+            <span>FytRec</span>
+          </a>
+        </nav>
+        <div style="height: 500px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 flex pt-[60px]">
+    <!-- Sidebar - Now fixed positioned -->
+    <aside id="sidebar" class="fixed top-[60px] left-0 h-[calc(100vh-60px)] w-full md:w-64 bg-gray-900 shadow-md overflow-y-auto transition-all duration-300 z-40">
       <div class="p-4">
         <div id="sidebar-content">
+          <!-- Main Navigation -->
           <nav class="space-y-2">
-            <a href="/" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
-              <i class="fas fa-home mr-3"></i>
+            <a href="/home.html" class="flex items-center p-3 rounded-lg bg-gray-700 text-gray-300">
+              <i class="fas fa-home mr-3 w-6 text-center"></i>
               <span>Home</span>
             </a>
-            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-fire mr-3"></i>
-              <span>Getting Started</span>
+            <a href="/explore" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-compass mr-3 w-6 text-center"></i>
+              <span>Explore</span>
+            </a>
+            <a href="/shorts" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-play-circle mr-3 w-6 text-center"></i>
+              <span>Shorts</span>
             </a>
             <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-star mr-3"></i>
-              <span>Code of Conduct</span>
-            </a>
-            <a href="/trending" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-fire mr-3"></i>
-              <span>Fight Hype</span>
-            </a>
-            <a href="/subscriptions" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-star mr-3"></i>
-              <span>Promoters</span>
-            </a>
-            <hr class="my-3 border-gray-700">
-            <a href="/saved" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-bookmark mr-3"></i>
-              <span>Saved</span>
-            </a>
-            <a href="/history" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-history mr-3"></i>
-              <span>PPV</span>
+              <i class="fas fa-tv mr-3 w-6 text-center"></i>
+              <span>Subscriptions</span>
             </a>
           </nav>
 
           <hr class="my-3 border-gray-700">
 
-          <h3 class="font-medium px-3 mb-2 text-gray-300">Popular Categories</h3>
-          <nav class="space-y-1">
-            <a href="/category/technology" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-laptop mr-3"></i>
-              <span>Technology</span>
+          <!-- Library Section -->
+          <nav class="space-y-2">
+            <a href="/library" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-photo-video mr-3 w-6 text-center"></i>
+              <span>Library</span>
             </a>
-            <a href="/category/gaming" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-gamepad mr-3"></i>
-              <span>Gaming</span>
+            <a href="/history" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-history mr-3 w-6 text-center"></i>
+              <span>History</span>
             </a>
-            <a href="/category/art-design" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-paint-brush mr-3"></i>
-              <span>Forum</span>
+            <a href="/watch-later" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-clock mr-3 w-6 text-center"></i>
+              <span>Watch Later</span>
             </a>
-            <a href="/category/sports" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-futbol mr-3"></i>
+            <a href="/liked-videos" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-thumbs-up mr-3 w-6 text-center"></i>
+              <span>Liked Videos</span>
+            </a>
+            <a href="/ppv" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-ticket-alt mr-3 w-6 text-center"></i>
+              <span>PPV Events</span>
+            </a>
+          </nav>
+
+          <hr class="my-3 border-gray-700">
+
+          <!-- Subscriptions -->
+          <h3 class="px-3 mb-1 text-sm font-medium text-gray-400">SUBSCRIPTIONS</h3>
+          <nav class="space-y-2 mt-2">
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <div class="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center mr-3">F</div>
+              <span>Fight Hype</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3">P</div>
+              <span>Promoters</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center mr-3">E</div>
               <span>EAC</span>
             </a>
-            <a href="/category/music" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-music mr-3"></i>
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <div class="w-6 h-6 rounded-full bg-yellow-500 flex items-center justify-center mr-3">F</div>
               <span>FytRec</span>
             </a>
           </nav>
-          <div style="height: 500px"></div>
+
+          <hr class="my-3 border-gray-700">
+
+          <!-- Explore Section -->
+          <h3 class="px-3 mb-1 text-sm font-medium text-gray-400">EXPLORE</h3>
+          <nav class="space-y-2 mt-2">
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-fire mr-3 w-6 text-center"></i>
+              <span>Trending</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-music mr-3 w-6 text-center"></i>
+              <span>Music</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-gamepad mr-3 w-6 text-center"></i>
+              <span>Gaming</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-newspaper mr-3 w-6 text-center"></i>
+              <span>News</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-trophy mr-3 w-6 text-center"></i>
+              <span>Sports</span>
+            </a>
+          </nav>
+
+          <hr class="my-3 border-gray-700">
+
+          <!-- Footer Links -->
+          <div class="py-3 px-3 text-xs text-gray-400">
+            <div class="flex flex-wrap gap-2 mb-3">
+              <a href="#" class="hover:text-gray-200">About</a>
+              <a href="#" class="hover:text-gray-200">Press</a>
+              <a href="#" class="hover:text-gray-200">Copyright</a>
+              <a href="#" class="hover:text-gray-200">Contact</a>
+              <a href="#" class="hover:text-gray-200">Creators</a>
+              <a href="#" class="hover:text-gray-200">Advertise</a>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-3">
+              <a href="#" class="hover:text-gray-200">Terms</a>
+              <a href="#" class="hover:text-gray-200">Privacy</a>
+              <a href="#" class="hover:text-gray-200">Policy & Safety</a>
+              <a href="#" class="hover:text-gray-200">How VBC works</a>
+              <a href="#" class="hover:text-gray-200">Test new features</a>
+            </div>
+            <p class="mt-4">© 2023 Virtron LLC</p>
+          </div>
         </div>
 
         <div id="sidebar-icons" class="hidden">
+          <!-- Main Navigation Icons -->
           <nav class="space-y-2">
-            <a href="/" class="flex items-center justify-center p-3 rounded-lg bg-gray-700 text-gray-300">
+            <a href="/home.html" class="flex items-center justify-center p-3 rounded-lg bg-gray-700 text-gray-300">
               <i class="fas fa-home"></i>
             </a>
-            <a href="/trending" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-fire"></i>
+            <a href="/explore" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-compass"></i>
+            </a>
+            <a href="/shorts" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-play-circle"></i>
             </a>
             <a href="/subscriptions" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-star"></i>
+              <i class="fas fa-tv"></i>
             </a>
+
             <hr class="my-3 border-gray-700">
-            <a href="/saved" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
-              <i class="fas fa-bookmark"></i>
+
+            <!-- Library Icons -->
+            <a href="/library" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-photo-video"></i>
             </a>
             <a href="/history" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
               <i class="fas fa-history"></i>
+            </a>
+            <a href="/watch-later" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-clock"></i>
+            </a>
+            <a href="/liked-videos" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-thumbs-up"></i>
+            </a>
+            <a href="/ppv" class="flex items-center justify-center p-3 rounded-lg hover:bg-gray-700 text-gray-300">
+              <i class="fas fa-ticket-alt"></i>
             </a>
           </nav>
         </div>
       </div>
     </aside>
-    <main class="flex-1 overflow-y-auto bg-gray-900">
-      <div class="p-4">
 
-        <!-- Quick Nav -->
-        <div class="overflow-x-auto mb-4 bg-gray-800 py-2 px-1 rounded-lg">
-          <div class="flex space-x-2 min-w-max">
-            <!-- Category buttons -->
-            <button class="px-4 py-2 bg-gray-700 text-gray-200 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors">
-              All
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Latest
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Boxing News
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Fight Analysis
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Upcoming Events
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Fighter Spotlights
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Rankings
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              PPV Discussion
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Training
-            </button>
-            <button class="px-4 py-2 bg-gray-900 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-              Equipment
-            </button>
-          </div>
-        </div>
+    <!-- Category Pills -->
+    <div class="category-pills fixed top-[60px] left-0 md:left-64 right-0 z-40 bg-gray-900 px-4 py-3 flex items-center space-x-3 overflow-x-auto whitespace-nowrap">
+      <button class="px-4 py-2 bg-white text-black rounded-lg font-medium text-sm">All</button>
+      <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm text-gray-300">Technology</button>
+      <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm text-gray-300">Gaming</button>
+      <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm text-gray-300">Sports</button>
+      <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm text-gray-300">Entertainment</button>
+      <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm text-gray-300">News</button>
+      <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm text-gray-300">Fight Hype</button>
+      <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm text-gray-300">Promoters</button>
+      <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm text-gray-300">Recently Uploaded</button>
+      <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm text-gray-300">Watched</button>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto bg-gray-900 pt-[50px] md:ml-64">
+      <div class="p-4">
 
         <!-- Test Section -->
         <!-- <div class="mb-6">
@@ -249,169 +550,9 @@
         </div> -->
 
         <!-- Section 1 -->
-        <div class="mb-6">
-          <div class="flex items-center mb-4">
-            <h1 class="text-2xl font-bold text-gray-300">Community Discussions</h1>
-            <div class="ml-auto">
-              <select class="border border-gray-700 rounded-lg px-3 py-2 bg-gray-800 text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option class="bg-gray-800">Newest</option>
-                <option class="bg-gray-800">Most Active</option>
-                <option class="bg-gray-800">Most Commented</option>
-              </select>
-            </div>
-          </div>
+        <div class="my-3">
 
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Topic 1 -->
-            <div class="bg-gray-800 rounded-lg shadow-sm overflow-hidden">
-              <div class="relative aspect-video bg-gray-700 overflow-hidden">
-                <img src="dev.jpg" alt="Developing community features for Fight Night Champion fans" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
-                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
-                  42 comments
-                </div>
-              </div>
-
-              <div class="p-4">
-                <h3 class="font-bold text-lg mb-1 text-gray-300 hover:text-blue-500">
-                  <a href="/discussion/1">Developing community features for Fight Night Champion fans</a>
-                </h3>
-                <div class="flex items-center text-sm text-gray-400 mb-2">
-                  <a href="/user/communitybuilder" class="flex items-center hover:text-gray-300">
-                    <div class="h-6 w-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs mr-2">
-                      C
-                    </div>
-                    communitybuilder
-                  </a>
-                  <span class="mx-2">•</span>
-                  <span>350 views</span>
-                  <span class="mx-2">•</span>
-                  <span>2 days ago</span>
-                </div>
-
-                <p class="text-gray-400 text-sm line-clamp-2 mb-3">
-                  How can we design features that will engage Fight Night Champion players and help build a stronger community on the platform?
-                </p>
-
-                <div class="flex items-center text-sm text-gray-400">
-                  <button class="flex items-center mr-4 hover:text-gray-300">
-                    <i class="fas fa-thumbs-up mr-1"></i>
-                    <span>18</span>
-                  </button>
-                  <button class="flex items-center mr-4 hover:text-gray-300">
-                    <i class="fas fa-thumbs-down mr-1"></i>
-                    <span>2</span>
-                  </button>
-                  <button class="flex items-center hover:text-gray-300">
-                    <i class="fas fa-bookmark mr-1"></i>
-                    <span>Save</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Topic 2 -->
-            <div class="bg-gray-800 rounded-lg shadow-sm overflow-hidden">
-              <div class="relative aspect-video bg-gray-700 overflow-hidden">
-                <img src="EAC.webp" alt="Incorporating Esports Athletic Commission (EAC) standards into the platform" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
-                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
-                  93 comments
-                </div>
-              </div>
-
-              <div class="p-4">
-                <h3 class="font-bold text-lg mb-1 text-gray-300 hover:text-blue-500">
-                  <a href="/discussion/2">Incorporating Esports Athletic Commission (EAC) standards into the platform</a>
-                </h3>
-                <div class="flex items-center text-sm text-gray-400 mb-2">
-                  <a href="/user/eacdev" class="flex items-center hover:text-gray-300">
-                    <div class="h-6 w-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs mr-2">
-                      E
-                    </div>
-                    eacdev
-                  </a>
-                  <span class="mx-2">•</span>
-                  <span>2.1k views</span>
-                  <span class="mx-2">•</span>
-                  <span>1 week ago</span>
-                </div>
-
-                <p class="text-gray-400 text-sm line-clamp-2 mb-3">
-                  How can the platform implement Esports Athletic Commission (EAC) standards for player safety, fair play, and competitive integrity?
-                </p>
-
-                <div class="flex items-center text-sm text-gray-400">
-                  <button class="flex items-center mr-4 hover:text-gray-300">
-                    <i class="fas fa-thumbs-up mr-1"></i>
-                    <span>45</span>
-                  </button>
-                  <button class="flex items-center mr-4 hover:text-gray-300">
-                    <i class="fas fa-thumbs-down mr-1"></i>
-                    <span>4</span>
-                  </button>
-                  <button class="flex items-center hover:text-gray-300">
-                    <i class="fas fa-bookmark mr-1"></i>
-                    <span>Save</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Topic 3 -->
-            <div class="bg-gray-800 rounded-lg shadow-sm overflow-hidden">
-              <div class="relative aspect-video bg-gray-700 overflow-hidden">
-                <img src="manager.jpg" alt="Building inclusive esports communities for Fight Night Champion" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
-                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
-                  17 comments
-                </div>
-              </div>
-
-              <div class="p-4">
-                <h3 class="font-bold text-lg mb-1 text-gray-300 hover:text-blue-500">
-                  <a href="/discussion/3">Building inclusive esports communities for Fight Night Champion</a>
-                </h3>
-                <div class="flex items-center text-sm text-gray-400 mb-2">
-                  <a href="/user/inclusivegaming" class="flex items-center hover:text-gray-300">
-                    <div class="h-6 w-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs mr-2">
-                      I
-                    </div>
-                    inclusivegaming
-                  </a>
-                  <span class="mx-2">•</span>
-                  <span>150 views</span>
-                  <span class="mx-2">•</span>
-                  <span>5 hours ago</span>
-                </div>
-
-                <p class="text-gray-400 text-sm line-clamp-2 mb-3">
-                  What are the best practices for fostering an inclusive and supportive community for Fight Night Champion esports players?
-                </p>
-
-                <div class="flex items-center text-sm text-gray-400">
-                  <button class="flex items-center mr-4 hover:text-gray-300">
-                    <i class="fas fa-thumbs-up mr-1"></i>
-                    <span>12</span>
-                  </button>
-                  <button class="flex items-center mr-4 hover:text-gray-300">
-                    <i class="fas fa-thumbs-down mr-1"></i>
-                    <span>1</span>
-                  </button>
-                  <button class="flex items-center hover:text-gray-300">
-                    <i class="fas fa-bookmark mr-1"></i>
-                    <span>Save</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 2: Recent Fights -->
-        <div class="mb-6">
-          <div class="flex items-center mb-4">
-            <h1 class="text-2xl font-bold text-gray-300">Recent Fights</h1>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="section-1-grid">
             <!-- Fight 1 -->
             <div class="bg-gray-800 rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
               <div class="relative aspect-video bg-gray-700 overflow-hidden rounded-lg">
@@ -510,6 +651,39 @@
                 </div>
               </div>
             </div>
+
+            <!-- Fight 3 -->
+            <div class="bg-gray-800 rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              <div class="relative aspect-video bg-gray-700 overflow-hidden rounded-lg">
+                <img src="/lame.png" alt="Fight Night Champion: Epic Showdown" class="w-full h-full object-cover rounded-lg transition-transform duration-300 hover:scale-110">
+                <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+                  12:26
+                </div>
+                <div class="absolute top-2 left-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
+                  <i class="fas fa-play mr-1"></i>Watch Now
+                </div>
+              </div>
+
+              <div class="p-4">
+                <h3 class="font-bold text-lg mb-1 text-gray-300 hover:text-blue-500">
+                  <a href="/fight/1">Robert Wilson vs Grant Tucker</a>
+                </h3>
+                <div class="text-sm text-gray-400 mb-2">
+                  <span>137 views</span>
+                  <span class="mx-2">•</span>
+                  <span>1 days ago</span>
+                </div>
+
+                <div class="flex items-center text-sm text-gray-400">
+                  <div class="w-8 h-8 rounded-full bg-gray-600 overflow-hidden">
+                    <img src="/promoter2-removebg-preview.png" alt="Channel icon" class="w-full h-full object-cover"/>
+                  </div>
+                  <div class="ml-2">
+                    <p class="text-sm">TOP NOTCH</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -518,7 +692,7 @@
           <div class="flex items-center mb-4">
             <h1 class="text-2xl font-bold text-gray-300">Proposals</h1>
           </div>
-          
+
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- Card 1 -->
             <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col w-full">
@@ -527,7 +701,7 @@
                   <a href="/proposal/1" class="hover:text-red-500">"New Weight Class Restrictions for Online Matches"</a>
                 </h3>
                 <p class="text-xs text-gray-400">Submitted by <span class="text-red-400">@FightFan123</span></p>
-        
+
                 <div class="flex items-center justify-between mt-1">
                   <div class="flex items-center space-x-2 text-gray-300 text-xs">
                     <span>🔥 1.2K</span>
@@ -540,7 +714,7 @@
                 </div>
               </div>
             </div>
-        
+
             <!-- Card 2 -->
             <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col w-full">
               <div class="p-3">
@@ -548,7 +722,7 @@
                   <a href="/proposal/2" class="hover:text-red-500">"Add a Tournament Mode with Prize Pools"</a>
                 </h3>
                 <p class="text-xs text-gray-400">Submitted by <span class="text-red-400">@BoxingKing89</span></p>
-        
+
                 <div class="flex items-center justify-between mt-1">
                   <div class="flex items-center space-x-2 text-gray-300 text-xs">
                     <span>🔥 2.3K</span>
@@ -561,7 +735,7 @@
                 </div>
               </div>
             </div>
-        
+
             <!-- Card 3 -->
             <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col w-full">
               <div class="p-3">
@@ -569,7 +743,7 @@
                   <a href="/proposal/3" class="hover:text-red-500">"Introduce Customizable Fighter Styles"</a>
                 </h3>
                 <p class="text-xs text-gray-400">Submitted by <span class="text-red-400">@EsportsGuru</span></p>
-        
+
                 <div class="flex items-center justify-between mt-1">
                   <div class="flex items-center space-x-2 text-gray-300 text-xs">
                     <span>🔥 950</span>
@@ -582,7 +756,7 @@
                 </div>
               </div>
             </div>
-        
+
             <!-- Card 4 -->
             <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col w-full">
               <div class="p-3">
@@ -590,7 +764,7 @@
                   <a href="/proposal/4" class="hover:text-red-500">"Balance Punch Speed Across Weight Classes"</a>
                 </h3>
                 <p class="text-xs text-gray-400">Submitted by <span class="text-red-400">@UndisputedChamp</span></p>
-        
+
                 <div class="flex items-center justify-between mt-1">
                   <div class="flex items-center space-x-2 text-gray-300 text-xs">
                     <span>🔥 1.7K</span>
@@ -603,7 +777,7 @@
                 </div>
               </div>
             </div>
-        
+
             <!-- Card 5 -->
             <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col w-full">
               <div class="p-3">
@@ -611,7 +785,7 @@
                   <a href="/proposal/5" class="hover:text-red-500">"Implement Spectator Mode for Live Matches"</a>
                 </h3>
                 <p class="text-xs text-gray-400">Submitted by <span class="text-red-400">@RingwatcherPro</span></p>
-        
+
                 <div class="flex items-center justify-between mt-1">
                   <div class="flex items-center space-x-2 text-gray-300 text-xs">
                     <span>🔥 875</span>
@@ -624,7 +798,7 @@
                 </div>
               </div>
             </div>
-        
+
             <!-- Card 6 -->
             <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col w-full">
               <div class="p-3">
@@ -632,7 +806,7 @@
                   <a href="/proposal/6" class="hover:text-red-500">"Add New Referee Mechanics"</a>
                 </h3>
                 <p class="text-xs text-gray-400">Submitted by <span class="text-red-400">@RuleBook42</span></p>
-        
+
                 <div class="flex items-center justify-between mt-1">
                   <div class="flex items-center space-x-2 text-gray-300 text-xs">
                     <span>🔥 620</span>
@@ -645,7 +819,7 @@
                 </div>
               </div>
             </div>
-        
+
             <!-- Card 7 -->
             <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col w-full">
               <div class="p-3">
@@ -653,7 +827,7 @@
                   <a href="/proposal/7" class="hover:text-red-500">"Create Historic Fighter Challenges"</a>
                 </h3>
                 <p class="text-xs text-gray-400">Submitted by <span class="text-red-400">@LegendaryBoxer</span></p>
-        
+
                 <div class="flex items-center justify-between mt-1">
                   <div class="flex items-center space-x-2 text-gray-300 text-xs">
                     <span>🔥 1.5K</span>
@@ -666,7 +840,7 @@
                 </div>
               </div>
             </div>
-        
+
             <!-- Card 8 -->
             <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col w-full">
               <div class="p-3">
@@ -674,7 +848,7 @@
                   <a href="/proposal/8" class="hover:text-red-500">"Improve Training Mode Features"</a>
                 </h3>
                 <p class="text-xs text-gray-400">Submitted by <span class="text-red-400">@TrainerElite</span></p>
-        
+
                 <div class="flex items-center justify-between mt-1">
                   <div class="flex items-center space-x-2 text-gray-300 text-xs">
                     <span>🔥 1.1K</span>
@@ -695,7 +869,7 @@
           <div class="flex items-center mb-4">
             <h1 class="text-2xl font-bold text-gray-200">Fight Cards</h1>
           </div>
-        
+
           <!-- Fight Card Grid Layout -->
           <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             <!-- Fight Card 1 -->
@@ -707,7 +881,7 @@
                 </div>
                 <span class="text-gray-300">Metabox_Promotions</span>
               </div>
-              
+
               <!-- Fight Title -->
               <div class="p-4">
                 <h3 class="font-bold text-lg mb-2 text-gray-300 hover:text-blue-500">
@@ -719,7 +893,7 @@
                   <br>Undercard: Deontay Wilder vs Andy Ruiz Jr.
                 </p>
               </div>
-        
+
               <!-- Fighter Headshots -->
               <div class="mt-auto p-4 flex justify-between items-center">
                 <div class="flex flex-col items-center">
@@ -733,7 +907,7 @@
                 </div>
               </div>
             </div>
-        
+
             <!-- Fight Card 2 -->
             <div class="bg-gray-800 rounded-lg shadow-sm overflow-hidden flex flex-col h-full">
               <!-- Header with Promoter -->
@@ -743,7 +917,7 @@
                 </div>
                 <span class="text-gray-300">Golden Promotions</span>
               </div>
-              
+
               <!-- Fight Title -->
               <div class="p-4">
                 <h3 class="font-bold text-lg mb-2 text-gray-300 hover:text-blue-500">
@@ -755,7 +929,7 @@
                   <br>Undercard: Ryan Garcia vs Tank Davis
                 </p>
               </div>
-        
+
               <!-- Fighter Headshots -->
               <div class="mt-auto p-4 flex justify-between items-center">
                 <div class="flex flex-col items-center">
@@ -769,7 +943,7 @@
                 </div>
               </div>
             </div>
-        
+
             <!-- Fight Card 3 -->
             <div class="bg-gray-800 rounded-lg shadow-sm overflow-hidden flex flex-col h-full">
               <!-- Header with Promoter -->
@@ -779,7 +953,7 @@
                 </div>
                 <span class="text-gray-300">Big Punch Promotions</span>
               </div>
-              
+
               <!-- Fight Title -->
               <div class="p-4">
                 <h3 class="font-bold text-lg mb-2 text-gray-300 hover:text-blue-500">
@@ -791,7 +965,7 @@
                   <br>Undercard: Anthony Joshua vs Dillian Whyte
                 </p>
               </div>
-        
+
               <!-- Fighter Headshots -->
               <div class="mt-auto p-4 flex justify-between items-center">
                 <div class="flex flex-col items-center">
@@ -805,7 +979,7 @@
                 </div>
               </div>
             </div>
-        
+
             <!-- Fight Card 4 (New) -->
             <div class="bg-gray-800 rounded-lg shadow-sm overflow-hidden flex flex-col h-full">
               <!-- Header with Promoter -->
@@ -815,7 +989,7 @@
                 </div>
                 <span class="text-gray-300">Top Rank Boxing</span>
               </div>
-              
+
               <!-- Fight Title -->
               <div class="p-4">
                 <h3 class="font-bold text-lg mb-2 text-gray-300 hover:text-blue-500">
@@ -827,7 +1001,7 @@
                   <br>Undercard: Shakur Stevenson vs Oscar Valdez
                 </p>
               </div>
-        
+
               <!-- Fighter Headshots -->
               <div class="mt-auto p-4 flex justify-between items-center">
                 <div class="flex flex-col items-center">
@@ -841,7 +1015,7 @@
                 </div>
               </div>
             </div>
-        
+
             <!-- Fight Card 5 (New) -->
             <div class="bg-gray-800 rounded-lg shadow-sm overflow-hidden flex flex-col h-full">
               <!-- Header with Promoter -->
@@ -851,7 +1025,7 @@
                 </div>
                 <span class="text-gray-300">Matchroom Boxing</span>
               </div>
-              
+
               <!-- Fight Title -->
               <div class="p-4">
                 <h3 class="font-bold text-lg mb-2 text-gray-300 hover:text-blue-500">
@@ -863,7 +1037,7 @@
                   <br>Undercard: Nonito Donaire vs Nordine Oubaali
                 </p>
               </div>
-        
+
               <!-- Fighter Headshots -->
               <div class="mt-auto p-4 flex justify-between items-center">
                 <div class="flex flex-col items-center">
@@ -877,7 +1051,7 @@
                 </div>
               </div>
             </div>
-        
+
             <!-- Fight Card 6 (New) -->
             <div class="bg-gray-800 rounded-lg shadow-sm overflow-hidden flex flex-col h-full">
               <!-- Header with Promoter -->
@@ -887,7 +1061,7 @@
                 </div>
                 <span class="text-gray-300">Premier Boxing Champions</span>
               </div>
-              
+
               <!-- Fight Title -->
               <div class="p-4">
                 <h3 class="font-bold text-lg mb-2 text-gray-300 hover:text-blue-500">
@@ -899,7 +1073,7 @@
                   <br>Undercard: Jermall Charlo vs David Benavidez
                 </p>
               </div>
-        
+
               <!-- Fighter Headshots -->
               <div class="mt-auto p-4 flex justify-between items-center">
                 <div class="flex flex-col items-center">
@@ -914,11 +1088,10 @@
               </div>
             </div>
           </div>
-        </div>        
-        
+        </div>
+
       </div>
     </main>
-
-    </div>
-  </body>
-  </html>
+  </div>
+</body>
+</html>
